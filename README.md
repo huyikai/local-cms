@@ -14,6 +14,7 @@ A Management System for Managing Local markdown Files
 
 ## ToDo
 
+- CLI
 - File, directory movement
 - File Import/Batch
 - Linked content import
