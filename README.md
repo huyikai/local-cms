@@ -1,30 +1,28 @@
-# VitePress-Custom
+# Local-CMS
 
 ## Brief
 
-Added some features on the basis of  [vitepress](https://vitepress.vuejs.org)
+A Management System for Managing Local markdown Files
 
 ## Features
 
-- nav：automatic generate the navigation bar based on the file directory
-- sidebar：automatic generate the sidebar based on the file directory
-- search：developing
+- Addition, deletion, modification and search of files/directories
+- Edit Live Preview
+- Save in real time without manual save
 
 ## Usage
 
-```shell
-# Global import dependency
-npm i @vitepress-custom/vitepress-custom-cli -g
-# init
-vitepress-custom init
-# Waiting for initialization to complete
-npm install
-npm run dev
-```
+## ToDo
+
+- File, directory movement
+- File Import/Batch
+- Linked content import
+- Version control
+- Static resource (image) management
 
 ## License
 
 [MIT](./license)
 
 ## Repository
-https://github.com/vitepress-custom
+https://github.com/huyikai/local-cms
