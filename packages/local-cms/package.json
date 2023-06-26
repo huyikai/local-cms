@@ -1,0 +1,18 @@
+{
+  "name": "local-cms",
+  "version": "0.0.0",
+  "description": "local-cms",
+  "license": "MIT",
+  "author": "huyikai",
+  "type": "module",
+  "main": "cms.js",
+  "scripts": {
+    "cms": "node cms.js example"
+  },
+  "devDependencies": {
+    "child_process": "^1.0.2",
+    "chokidar": "^3.5.3",
+    "express": "^4.18.2",
+    "vue": "^3.2.45"
+  }
+}
