@@ -43,7 +43,7 @@ app.get("/api/directory/all", (req, res) => {
   const dirPath = path.join(currentDirectory, req.query.path || "");
   const ignore = req.query.ignore
     ? req.query.ignore.split(",")
-    : [".vitepress", "public", "index.md"];
+    : [".vitepress", "public", "index.md",'.DS_Store'];
   fs.readdir(dirPath, { withFileTypes: true }, (err, dirents) => {
     if (err) {
       res.status(500).send("读取目录失败");

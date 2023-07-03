@@ -29,5 +29,8 @@
     "sass": "^1.56.1",
     "vitepress": "^1.0.0-alpha.75",
     "vue": "^3.2.45"
+  },
+  "dependencies": {
+    "local-cms": "^0.0.0-alpha"
   }
 }
