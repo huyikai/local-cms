@@ -25,7 +25,7 @@
     "cms.js"
   ],
   "scripts": {
-    "cms": "node cms.js docs",
+    "cms": "node cms.js ./../../docs",
     "tsc": "tsc cms.ts bin/cli.ts --module esnext --allowSyntheticDefaultImports true --esModuleInterop true --moduleResolution node"
   },
   "dependencies": {

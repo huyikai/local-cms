@@ -56,7 +56,7 @@ app.get("/api/directory/all", (req, res) => {
       : [".vitepress", "public", "index.md", ".DS_Store"];
   fs.readdir(dirPath, { withFileTypes: true }, (err, dirents) => {
     if (err) {
-      res.status(500).send("读取目录失败");
+      res.status(500).send("读取目录失败:"+dirPath);
     } else {
       const result = dirents
         .filter((dirent) => !ignore.includes(dirent.name))
