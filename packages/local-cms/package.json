@@ -1,16 +1,29 @@
 {
-  "name": "local-cms",
+  "name": "@huyikai/local-cms",
   "version": "0.0.0-alpha",
-  "description": "local-cms",
+  "private": false,
+  "description": "A Management System for Managing Local markdown Files",
+  "keywords": [
+    "local-cms",
+    "cms"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/huyikai/local-cms"
+  },
   "license": "MIT",
   "author": "huyikai",
   "type": "module",
   "main": "bin/cli.js",
-  "scripts": {
-    "cms": "node cms.js docs"
-  },
   "bin": {
     "cms": "bin/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "cms": "node cms.js docs",
+    "tsc": "tsc cms.ts --module esnext --allowSyntheticDefaultImports true --esModuleInterop true --moduleResolution node"
   },
   "dependencies": {
     "chalk": "^5.3.0",
@@ -24,5 +37,12 @@
     "inquirer": "^9.2.7",
     "ora": "^6.3.1",
     "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "typescript": "^5.1.6"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

@@ -86,6 +86,9 @@ export default defineConfig(() => {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url))
       }
+    },
+    build: {
+      outDir: './../dist' // 设置打包目录到根目录下
     }
   };
 });

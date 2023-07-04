@@ -82,7 +82,7 @@ program
   .action(async (_name, _options) => {
     let results = await inquirer.prompt(prompts);
     if (results.action === "next") {
-      exec("npm install local-cms", async (error, stdout, stderr) => {
+      exec("npm install @huyikai/local-cms", async (error, stdout, stderr) => {
         if (error) {
           console.error(`exec error: ${error}`);
           return;
@@ -111,6 +111,14 @@ program.usage("<command> [option]");
 
 program.on("--help", () => {
   console.log(
+    `\r\nRun ${chalk.blue.bold(
+      `cms <command> --help`
+    )} for detailed usage of given command`
+  );
+  console.log(
+    `\r\nLink:${chalk.blue.bold("https://github.com/huyikai/local-cms")} \r\n`
+  );
+  console.log(
     "\r\n" +
       chalk
         .hex("#41B883")
@@ -124,15 +132,6 @@ program.on("--help", () => {
             whitespaceBreak: false,
           })
         )
-  );
-
-  console.log(
-    `\r\nRun ${chalk.blue.bold(
-      `cms <command> --help`
-    )} for detailed usage of given command`
-  );
-  console.log(
-    `\r\nLink:${chalk.blue.bold("https://github.com/huyikai/local-cms")} \r\n`
   );
 });
 

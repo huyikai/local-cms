@@ -23,3 +23,5 @@ package-lock.json
 yarn.lock
 
 .env
+
+**/cms.js

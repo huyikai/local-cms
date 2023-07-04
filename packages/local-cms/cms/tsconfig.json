@@ -15,7 +15,9 @@
     "baseUrl": "./",
     "paths": {
       "@/*": ["src/*"]
-    }
+    },
+    "verbatimModuleSyntax": true,
+    "ignoreDeprecations": "5.0"
   },
   "include": [
     "vite.config.*",
