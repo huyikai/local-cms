@@ -1,14 +1,15 @@
 #!/usr/bin/env node
-import fs from "fs-extra";
-import path from "path";
-import { exec } from "child_process";
+
 import { Command } from "commander";
-import inquirer from "inquirer";
 import chalk from "chalk";
+import { exec } from "child_process";
 import figlet from "figlet";
 import { fileURLToPath } from "url";
+import fs from "fs-extra";
+import inquirer from "inquirer";
+import path from "path";
 
-const program = new Command();
+const program: Command = new Command();
 
 program.name("local-cms").description("一个管理本地 markdown 文件的管理系统");
 

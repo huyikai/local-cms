@@ -24,4 +24,5 @@ yarn.lock
 
 .env
 
-**/cms.js
+packages/local-cms/bin/cli.js
+packages/local-cms/cms.js
