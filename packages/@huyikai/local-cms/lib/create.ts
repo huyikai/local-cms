@@ -1,3 +1,4 @@
+import chalk from "chalk";
 import download from "download-git-repo";
 import fs from "fs-extra";
 import inquirer from "inquirer";
@@ -64,10 +65,33 @@ export default async (answers: any) => {
         changeConfig();
         // 下载成功
         spinner.succeed("Complete");
+        const blodText = (text: string) => chalk.blue.bold(text);
+        const installCmd = "npm i";
+        console.log(
+          `\r\nexecute ${blodText(
+            installCmd
+          )}\r\nInstall dependencies.\r\n执行 ${blodText(
+            installCmd
+          )} 安装依赖。`
+        );
+        const cmsCmd = "npm run cms";
+        console.log(
+          `\r\nExecute ${blodText(
+            cmsCmd
+          )}run cms to management content.\r\n执行 ${blodText(
+            cmsCmd
+          )} 运行 cms 来管理内容。`
+        );
+        const devCmd = "npm run dev";
+        console.log(
+          `\r\nExecute ${blodText(devCmd)} to run vitepress.\r\n执行 ${blodText(
+            devCmd
+          )} 来运行 vitepress。\r\n`
+        );
       }
     });
   }
-  // 修改信息
+  // 修改package.json
   function changeConfig() {
     const projectRoot = `${process.cwd()}${newDir ? `/${name}` : ""}`;
     const packagePath = path.join(projectRoot, "package.json");
