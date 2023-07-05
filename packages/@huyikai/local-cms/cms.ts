@@ -4,7 +4,7 @@ import { exec } from "child_process";
 import express from "express";
 import { fileURLToPath } from "url";
 import fs from "fs";
-import globby from "globby";
+import { globby } from "globby";
 import net from "net";
 import path from "path";
 
@@ -56,7 +56,7 @@ app.get("/api/directory/all", (req, res) => {
       : [".vitepress", "public", "index.md", ".DS_Store"];
   fs.readdir(dirPath, { withFileTypes: true }, (err, dirents) => {
     if (err) {
-      res.status(500).send("读取目录失败:"+dirPath);
+      res.status(500).send("读取目录失败:" + dirPath);
     } else {
       const result = dirents
         .filter((dirent) => !ignore.includes(dirent.name))

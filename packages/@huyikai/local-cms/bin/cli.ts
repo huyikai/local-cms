@@ -11,7 +11,11 @@ import path from "path";
 
 const program: Command = new Command();
 
-program.name("local-cms").description("一个管理本地 markdown 文件的管理系统");
+program
+  .name("local-cms")
+  .description(
+    "A Management System for Managing Local markdown Files\r\n一个管理本地 markdown 文件的管理系统"
+  );
 
 try {
   const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -57,14 +61,14 @@ async function handleCmsScript() {
         "The cms command already exists in the script of the packages.json file, do you want to overwrite it? \r\npackages.json 文件的 scripts 中已存在 cms 命令，是否覆盖？\r\n",
     });
     if (answers.overwrite) {
-      packageJson.scripts.cms = "node node_modules/local-cms/cms.js docs";
+      packageJson.scripts.cms = "node node_modules/@huyikai/local-cms/cms.js docs";
       fs.writeFileSync(
         path.join(process.cwd(), "./package.json"),
         JSON.stringify(packageJson, null, 2)
       );
     }
   } else {
-    packageJson.scripts.cms = "node node_modules/local-cms/cms.js docs";
+    packageJson.scripts.cms = "node node_modules/@huyikai/local-cms/cms.js docs";
     fs.writeFileSync(
       path.join(process.cwd(), "./package.json"),
       JSON.stringify(packageJson, null, 2)
@@ -117,7 +121,10 @@ program.on("--help", () => {
     )} for detailed usage of given command`
   );
   console.log(
-    `\r\nLink:${chalk.blue.bold("https://github.com/huyikai/local-cms")} \r\n`
+    `\r\nGitHub: ${chalk.blue.bold("https://github.com/huyikai/local-cms")}`
+  );
+  console.log(
+    `\r\nHomePage: ${chalk.blue.bold("https://huyikai.github.io/local-cms")}`
   );
   console.log(
     "\r\n" +
