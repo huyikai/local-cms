@@ -15,7 +15,7 @@ jobs:
       - name: Typescript Compile
         run: |
           npm i
-          cd packages/local-cms
+          cd packages/@huyikai/local-cms
           npm i
           npm run tsc
       - name: Install and Build   
