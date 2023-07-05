@@ -2,6 +2,7 @@
 
 import { Command } from "commander";
 import chalk from "chalk";
+import create from "../lib/create.js";
 import { exec } from "child_process";
 import figlet from "figlet";
 import { fileURLToPath } from "url";
@@ -79,7 +80,7 @@ async function handleCmsScript() {
   }
   const runcms = chalk.blue.bold(`npm run cms`);
   console.log(
-    `Now you can execute ${runcms} to run cms management content.\r\n现在你可以执行 ${runcms} 来运行 cms 管理内容了。\r\n`
+    `Now you can execute ${runcms} to run cms management content.\r\n现在你可以执行 ${runcms} 来运行 cms 来管理内容了。\r\n`
   );
 }
 
@@ -101,17 +102,37 @@ program
         await handleCmsScript();
       });
     } else if (results.action === "new") {
-      exec(
-        "git clone https://github.com/vitepress-custom/vitepress-custom-template.git .",
-        (error, stdout, stderr) => {
-          if (error) {
-            console.error(`exec error: ${error}`);
-            return;
-          }
-          console.log(`stdout: ${stdout}`);
-          console.error(`stderr: ${stderr}`);
-        }
-      );
+      const question = [
+        {
+          name: "name",
+          message: "Project Name",
+          type: "input",
+          default: "my-docs",
+        },
+        {
+          name: "author",
+          description: "Input Author Name",
+          message: "Author",
+          default: "huyikai",
+        },
+        {
+          name: "version",
+          description: "Version",
+          message: "Version",
+          default: "1.0.0",
+        },
+        {
+          name: "newDir",
+          message: "Create A New Directory?",
+          type: "list",
+          choices: [
+            { name: "yes", value: true },
+            { name: "no", value: false },
+          ],
+        },
+      ];
+      let answers = await inquirer.prompt(question);
+      create(answers);
     }
   });
 
