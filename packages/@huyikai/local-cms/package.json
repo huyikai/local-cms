@@ -1,6 +1,6 @@
 {
   "name": "@huyikai/local-cms",
-  "version": "0.0.0-alpha",
+  "version": "0.0.1-alpha",
   "private": false,
   "description": "A Management System for Managing Local markdown Files",
   "keywords": [

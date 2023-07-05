@@ -1,9 +1,10 @@
+import docsData from '@vitepress-custom/vitepress-plugin-fetch-docs';
 import navParser from '@vitepress-custom/vitepress-plugin-nav';
 import sidebar from '@vitepress-custom/vitepress-plugin-sidebar';
-import docsData from '@vitepress-custom/vitepress-plugin-fetch-docs';
 export default async () => {
   let pages = await docsData();
   return {
+    base: '/local-cms/',
     title: 'local-custom',
     description: 'A Management System for Managing Local markdown Files',
     head: [

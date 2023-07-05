@@ -15,22 +15,22 @@
     "docs"
   ],
   "workspaces": [
-    "packages/local-cms"
+    "packages/@huyikai/*"
   ],
   "scripts": {
     "build": "vitepress build docs",
     "dev": "vitepress dev docs",
-    "cms": "node node_modules/local-cms/cms.js docs"
+    "cms": "node node_modules/@huyikai/local-cms/cms.js docs"
   },
   "devDependencies": {
     "@vitepress-custom/vitepress-plugin-fetch-docs": "^0.0.5",
     "@vitepress-custom/vitepress-plugin-nav": "^0.0.7",
     "@vitepress-custom/vitepress-plugin-sidebar": "^0.0.8",
-    "sass": "^1.56.1",
-    "vitepress": "^1.0.0-alpha.75",
-    "vue": "^3.2.45"
+    "sass": "^1.63.6",
+    "vitepress": "^1.0.0-beta.5",
+    "vue": "^3.3.4"
   },
   "dependencies": {
-    "local-cms": "^0.0.0-alpha"
+    "@huyikai/local-cms": "^0.0.1-alpha"
   }
 }
