@@ -1,6 +1,6 @@
 {
   "name": "@huyikai/local-cms",
-  "version": "0.0.1-alpha.63",
+  "version": "0.0.1-alpha.64",
   "private": false,
   "description": "A Management System for Managing Local markdown Files",
   "keywords": [
@@ -28,7 +28,7 @@
   ],
   "scripts": {
     "cms": "npm run tsc && node cms.js ../../../docs",
-    "tsc": "tsc cms.ts bin/cli.ts --module esnext --allowSyntheticDefaultImports true --esModuleInterop true --moduleResolution node",
+    "tsc": "tsc -p ./tsconfig.json",
     "publish-npm": "cd cms && npm run build && cd .. && npm run tsc && npm publish"
   },
   "dependencies": {
