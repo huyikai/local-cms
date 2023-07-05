@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "module": "esnext", // 指定模块的代码生成方式为ES模块
+    "target": "esnext", // 指定编译后的代码目标为ES6及以上版本
+    "moduleResolution": "node", // 指定模块解析方式为Node.js的解析方式
+    "esModuleInterop": true, // 允许导入CommonJS模块时使用ES6的导入语法
+    "strict": true, // 启用所有严格类型检查选项
+    "skipLibCheck": true, // 跳过对声明文件的检查
+    "noUnusedLocals": true, // 报告未使用的局部变量
+    "resolveJsonModule": true, // 允许导入JSON模块
+    "jsx": "preserve", // 保留JSX代码
+    "lib": ["esnext", "dom", "dom.iterable"] // 指定编译时需要引入的库文件
+  },
+  "exclude": ["**/node_modules/**", "**/dist/**", "template"] // 指定哪些文件或文件夹不应该被编译器包含在内
+}

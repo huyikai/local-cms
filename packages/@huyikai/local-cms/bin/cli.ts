@@ -52,7 +52,8 @@ const prompts = [
 ];
 
 async function handleCmsScript() {
-  const packageJson = JSON.parse(fs.readFileSync("./package.json"));
+  const packageData = fs.readFileSync("./package.json");
+  const packageJson = JSON.parse(packageData.toString());
   if (packageJson.scripts.cms) {
     const answers = await inquirer.prompt({
       type: "confirm",
@@ -61,14 +62,16 @@ async function handleCmsScript() {
         "The cms command already exists in the script of the packages.json file, do you want to overwrite it? \r\npackages.json 文件的 scripts 中已存在 cms 命令，是否覆盖？\r\n",
     });
     if (answers.overwrite) {
-      packageJson.scripts.cms = "node node_modules/@huyikai/local-cms/cms.js docs";
+      packageJson.scripts.cms =
+        "node node_modules/@huyikai/local-cms/cms.js docs";
       fs.writeFileSync(
         path.join(process.cwd(), "./package.json"),
         JSON.stringify(packageJson, null, 2)
       );
     }
   } else {
-    packageJson.scripts.cms = "node node_modules/@huyikai/local-cms/cms.js docs";
+    packageJson.scripts.cms =
+      "node node_modules/@huyikai/local-cms/cms.js docs";
     fs.writeFileSync(
       path.join(process.cwd(), "./package.json"),
       JSON.stringify(packageJson, null, 2)
