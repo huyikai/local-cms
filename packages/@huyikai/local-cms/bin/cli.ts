@@ -57,7 +57,7 @@ async function handleCmsScript(options: any) {
 
   const updatePackageJson = () => {
     _packageJson.scripts.cms =
-      'node node_modules/@huyikai/local-cms/cms.js docs';
+      `node node_modules/@huyikai/local-cms/cms.js ${options.directory}`;
     fs.writeFileSync(
       path.join(process.cwd(), './package.json'),
       JSON.stringify(_packageJson, null, 2)

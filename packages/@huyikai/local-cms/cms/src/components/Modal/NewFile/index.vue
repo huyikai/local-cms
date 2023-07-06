@@ -36,7 +36,13 @@ const filename = ref('');
 
 const fieldNames = { children: 'children', label: 'name', value: 'path' };
 const treeData = computed(() => {
-  return useEditorStore.directory;
+  return [
+    {
+      name: '根目录',
+      path: '/',
+      children: useEditorStore.directory
+    }
+  ];
 });
 
 const handleOk = () => {
