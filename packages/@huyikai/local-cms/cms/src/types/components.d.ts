@@ -10,7 +10,6 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AButton: typeof import('ant-design-vue/es')['Button']
-    ADivider: typeof import('ant-design-vue/es')['Divider']
     ADropdown: typeof import('ant-design-vue/es')['Dropdown']
     AForm: typeof import('ant-design-vue/es')['Form']
     AFormItem: typeof import('ant-design-vue/es')['FormItem']
@@ -21,12 +20,10 @@ declare module '@vue/runtime-core' {
     AMenu: typeof import('ant-design-vue/es')['Menu']
     AMenuItem: typeof import('ant-design-vue/es')['MenuItem']
     AModal: typeof import('ant-design-vue/es')['Modal']
-    ASkeleton: typeof import('ant-design-vue/es')['Skeleton']
     ASpace: typeof import('ant-design-vue/es')['Space']
     ASpin: typeof import('ant-design-vue/es')['Spin']
     ATree: typeof import('ant-design-vue/es')['Tree']
     ATreeSelect: typeof import('ant-design-vue/es')['TreeSelect']
-    ATypography: typeof import('ant-design-vue/es')['Typography']
     ATypographyLink: typeof import('ant-design-vue/es')['TypographyLink']
     ATypographyParagraph: typeof import('ant-design-vue/es')['TypographyParagraph']
     ATypographyText: typeof import('ant-design-vue/es')['TypographyText']
@@ -39,7 +36,6 @@ declare module '@vue/runtime-core' {
     FileAddOutlined: typeof import('@ant-design/icons-vue')['FileAddOutlined']
     FolderAddOutlined: typeof import('@ant-design/icons-vue')['FolderAddOutlined']
     FormOutlined: typeof import('@ant-design/icons-vue')['FormOutlined']
-    GithubOutlined: typeof import('@ant-design/icons-vue')['GithubOutlined']
     HighlightText: typeof import('./../components/HighlightText/index.vue')['default']
     Home: typeof import('./../views/Home/index.vue')['default']
     HomeOutlined: typeof import('@ant-design/icons-vue')['HomeOutlined']
