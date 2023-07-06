@@ -31,11 +31,8 @@ npm i @huyikai/local-cms -D
 ```
 
 ```json
-// package.json
 {
-  ...
   "scripts": {
-    ...
     "cms": "node node_modules/@huyikai/local-cms/cms.js docs"
   }
 }

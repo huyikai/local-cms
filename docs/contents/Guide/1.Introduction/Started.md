@@ -3,16 +3,31 @@ title: Getting Started
 ---
 
 # Getting Started
-Added some features on the basis of  [vitepress](https://vitepress.vuejs.org)
 
 ## Usage
 
 ```shell
-# Global import dependency
-npm i @vitepress-custom/vitepress-custom-cli -g
-# init
-vitepress-custom init
-# Waiting for initialization to complete
-npm install
-npm run dev
+npx @huyikai/local-cms init
 ```
+
+or
+
+```shell
+npm i @huyikai/local-cms -g
+cms init
+```
+
+or
+
+```sh
+npm i @huyikai/local-cms -D
+```
+
+```json
+{
+  "scripts": {
+    "cms": "node node_modules/@huyikai/local-cms/cms.js docs"
+  }
+}
+```
+
