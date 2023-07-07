@@ -19,6 +19,7 @@ app.use(
   `${process.cwd()}/${currentDirectory}`,
   express.static(currentDirectory)
 );
+
 app.use(bodyParser.json());
 
 const server = net.createServer();

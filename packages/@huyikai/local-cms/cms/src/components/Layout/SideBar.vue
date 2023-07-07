@@ -21,24 +21,28 @@ const route = useRoute();
         </template>
       </a-button>
       <div class="btn-group">
-        <a-button
-          type="text"
-          @click="useModalStore.newFileModalVisible = true"
-          title="新建文件"
-        >
-          <template #icon>
-            <file-add-outlined />
-          </template>
-        </a-button>
-        <a-button
-          type="text"
-          @click="useModalStore.newDirectoryModalVisible = true"
-          title="新建目录"
-        >
-          <template #icon>
-            <folder-add-outlined />
-          </template>
-        </a-button>
+        <a-tooltip>
+          <template #title>新建文件</template>
+          <a-button
+            type="text"
+            @click="useModalStore.newFileModalVisible = true"
+          >
+            <template #icon>
+              <file-add-outlined />
+            </template>
+          </a-button>
+        </a-tooltip>
+        <a-tooltip>
+          <template #title>新建目录</template>
+          <a-button
+            type="text"
+            @click="useModalStore.newDirectoryModalVisible = true"
+          >
+            <template #icon>
+              <folder-add-outlined />
+            </template>
+          </a-button>
+        </a-tooltip>
       </div>
     </header>
     <Catalog></Catalog>
