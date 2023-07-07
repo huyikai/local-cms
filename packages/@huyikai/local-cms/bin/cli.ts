@@ -21,13 +21,18 @@ program
     'A Management System for Managing Local markdown Files\r\n一个管理本地 markdown 文件的管理系统'
   );
 
+// 工作目录
+const cwd = process.cwd();
+// 粗体文字
+const blodText = (text: string) => chalk.blue.bold(text);
+// 依赖存放目录
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const packagePath = path.join(__dirname, './../package.json');
-const packageData = fs.readFileSync(packagePath, 'utf8');
-const packageJson = JSON.parse(packageData);
-const version = packageJson.version;
+const packageJson = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
+
+// 设置程序的版本信息，用户可以通过 -v,-V, --version 参数查看当前版本信息
 program.version(
-  version,
+  packageJson.version,
   '-v,-V, --version',
   'Output current version information'
 );
@@ -51,17 +56,14 @@ const prompts = [
   }
 ];
 
-async function handleCmsScript(options: any) {
-  const _packageData = fs.readFileSync('./package.json');
-  const _packageJson = JSON.parse(_packageData.toString());
+const handleCmsScript = async (options: any) => {
+  const _packagePath = path.join(cwd, './package.json');
+  const _packageJson = JSON.parse(fs.readFileSync(_packagePath).toString());
 
-  const updatePackageJson = () => {
-    _packageJson.scripts.cms =
-      `node node_modules/@huyikai/local-cms/cms.js ${options.directory}`;
-    fs.writeFileSync(
-      path.join(process.cwd(), './package.json'),
-      JSON.stringify(_packageJson, null, 2)
-    );
+  const modifyPackageJson = () => {
+    const cmsCMD = `node node_modules/@huyikai/local-cms/cms.js ${options.directory}`;
+    _packageJson.scripts.cms = cmsCMD;
+    fs.writeFileSync(_packagePath, JSON.stringify(_packageJson, null, 2));
   };
 
   if (_packageJson.scripts.cms) {
@@ -72,13 +74,13 @@ async function handleCmsScript(options: any) {
         'The cms command already exists in the script of the packages.json file, do you want to overwrite it? \r\npackages.json 文件的 scripts 中已存在 cms 命令，是否覆盖？\r\n'
     });
     if (answers.overwrite) {
-      updatePackageJson();
+      modifyPackageJson();
     }
   } else {
-    updatePackageJson();
+    modifyPackageJson();
   }
   spinner.start('Installing...');
-  exec('npm i @huyikai/local-cms -D', async (error, stdout, stderr) => {
+  exec('npm i @huyikai/local-cms -D', async (error) => {
     if (error) {
       console.error(`exec error: ${error}`);
       return;
@@ -89,25 +91,26 @@ async function handleCmsScript(options: any) {
       fs.mkdirSync(options.directory);
     }
     spinner.succeed('install Complete!!!');
-    const runcms = chalk.blue.bold(`npm run cms`);
+    const runcms = blodText('npm run cms');
     console.log(
       `\r\nNow you can execute ${runcms} to run cms management content.\r\n现在你可以执行 ${runcms} 来运行 cms 来管理内容了。\r\n`
     );
   });
-}
+};
 
 program
   .command('init')
   .description('Guide to complete the initialization operation')
   .summary('initialization')
-  .action(async (_name, _options) => {
+  .action(async () => {
     let results = await inquirer.prompt(prompts);
 
     if (results.action === 'next') {
       let directory = await inquirer.prompt([
         {
           name: 'directory',
-          message: 'Directory to manage.\r\n要管理的目录',
+          message:
+            'Set up a directory to store content.\r\n设置一个用来存放内容的目录',
           type: 'input',
           default: 'docs'
         }
@@ -156,19 +159,21 @@ program
     }
   });
 
+// 设置程序的使用方法
 program.usage('<command> [option]');
 
+// 使用帮助指令时触发的事件
 program.on('--help', () => {
   console.log(
-    `\r\nRun ${chalk.blue.bold(
-      `cms <command> --help`
+    `\r\nRun ${blodText(
+      'cms <command> --help'
     )} for detailed usage of given command`
   );
   console.log(
-    `\r\nGitHub: ${chalk.blue.bold('https://github.com/huyikai/local-cms')}`
+    `\r\nGitHub: ${blodText('https://github.com/huyikai/local-cms')}`
   );
   console.log(
-    `\r\nHomePage: ${chalk.blue.bold('https://huyikai.github.io/local-cms')}`
+    `\r\nHomePage: ${blodText('https://huyikai.github.io/local-cms')}`
   );
   console.log(
     '\r\n' +
@@ -187,4 +192,5 @@ program.on('--help', () => {
   );
 });
 
+// 解析命令行参数(必须)
 program.parse(process.argv);

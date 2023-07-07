@@ -31,6 +31,6 @@
     "vue": "^3.3.4"
   },
   "dependencies": {
-    "@huyikai/local-cms": "^0.0.1-alpha.5"
+    "@huyikai/local-cms": "^0.0.1-alpha.68"
   }
 }
