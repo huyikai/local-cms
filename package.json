@@ -19,10 +19,13 @@
   ],
   "scripts": {
     "build": "vitepress build docs",
+    "cms": "node node_modules/@huyikai/local-cms/cms.js docs",
     "dev": "vitepress dev docs",
-    "cms": "node node_modules/@huyikai/local-cms/cms.js docs"
+    "release": "npm run release --workspaces"
   },
   "devDependencies": {
+    "@huyikai/local-cms": "^0.0.1-alpha.68",
+    "@release-it/bumper": "^4.0.2",
     "@vitepress-custom/vitepress-plugin-fetch-docs": "^0.0.5",
     "@vitepress-custom/vitepress-plugin-nav": "^0.0.7",
     "@vitepress-custom/vitepress-plugin-sidebar": "^0.0.8",
@@ -30,7 +33,12 @@
     "vitepress": "^1.0.0-beta.5",
     "vue": "^3.3.4"
   },
-  "dependencies": {
-    "@huyikai/local-cms": "^0.0.1-alpha.68"
+  "release-it": {
+    "git": {
+      "requireCleanWorkingDir": false
+    },
+    "npm": {
+      "publish": false
+    }
   }
 }
