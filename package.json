@@ -20,6 +20,7 @@
   "scripts": {
     "build": "vitepress build docs",
     "cms": "node node_modules/@huyikai/local-cms/cms.js docs",
+    "commit": "git-cz",
     "dev": "vitepress dev docs",
     "release": "npm run release --workspaces"
   },
@@ -29,6 +30,7 @@
     "@vitepress-custom/vitepress-plugin-fetch-docs": "^0.0.5",
     "@vitepress-custom/vitepress-plugin-nav": "^0.0.7",
     "@vitepress-custom/vitepress-plugin-sidebar": "^0.0.8",
+    "git-cz": "^4.9.0",
     "sass": "^1.63.6",
     "vitepress": "^1.0.0-beta.5",
     "vue": "^3.3.4"
