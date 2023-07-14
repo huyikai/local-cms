@@ -5,7 +5,11 @@
   "description": "A Management System for Managing Local markdown Files",
   "keywords": [
     "local-cms",
-    "cms"
+    "cms",
+    "content management system",
+    "markdown",
+    "vitepress",
+    "documentation"
   ],
   "homepage": "https://huyikai.github.io/local-cms/",
   "repository": {
