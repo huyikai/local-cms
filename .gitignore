@@ -27,3 +27,6 @@ yarn.lock
 packages/@huyikai/local-cms/bin/*.js
 packages/@huyikai/local-cms/cms.js
 packages/@huyikai/local-cms/lib/*.js
+coverage
+auto-imports.d.ts
+components.d.ts
