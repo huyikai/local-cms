@@ -1,8 +1,9 @@
-import docsData from '@vitepress-custom/vitepress-plugin-fetch-docs';
-import navParser from '@vitepress-custom/vitepress-plugin-nav';
-import sidebar from '@vitepress-custom/vitepress-plugin-sidebar';
+import vitepressHelper from '@huyikai/vitepress-helper';
 export default async () => {
-  let pages = await docsData();
+  const instance: any = await vitepressHelper({
+    directory: 'docs',
+    collapsible: true
+  });
   return {
     base: '/local-cms/',
     title: 'local-custom',
@@ -11,20 +12,17 @@ export default async () => {
       ['link', { rel: 'icon', href: 'favicon.ico' }] //浏览器标签icon
     ],
     themeConfig: {
-      pages, // 所有页面
       siteTitle: 'Local-CMS', //导航栏左侧名称
       logo: '/static/logo.svg', //导航栏左侧头像
       lastUpdated: true, //最后更新时间
       outlineTitle: 'Catalog', //右侧 侧边栏标题
       // 导航栏
-      nav: [
-        ...navParser(pages, 'contents')
-      ],
+      nav: instance.nav,
       search: {
         provider: 'local' // 离线搜索
       },
       // 侧边栏
-      sidebar: sidebar(pages, 'docs', true),
+      sidebar: instance.sidebar,
       // 社交链接
       socialLinks: [
         { icon: 'github', link: 'https://github.com/huyikai/local-cms' }

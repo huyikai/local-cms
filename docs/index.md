@@ -4,7 +4,7 @@ aside: false
 lastUpdated: false
 ---
 
-## Usage
+# Usage
 
 ```shell
 npx @huyikai/local-cms init
@@ -30,4 +30,3 @@ npm i @huyikai/local-cms -D
   }
 }
 ```
-
