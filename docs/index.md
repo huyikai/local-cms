@@ -1,6 +1,7 @@
 ---
 layout: custom
 aside: false
+outline: false
 lastUpdated: false
 ---
 
