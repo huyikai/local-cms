@@ -5,7 +5,6 @@ export default async () => {
     collapsible: true
   });
   return {
-    base: '/local-cms/',
     title: 'local-custom',
     description: 'A Management System for Managing Local markdown Files',
     head: [
