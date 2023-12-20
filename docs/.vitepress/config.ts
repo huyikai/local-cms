@@ -5,7 +5,8 @@ export default async () => {
     collapsible: true
   });
   return {
-    title: 'local-custom',
+    base: '/local-cms/',
+    title: 'local-cms',
     description: 'A Management System for Managing Local markdown Files',
     head: [
       ['link', { rel: 'icon', href: 'favicon.ico' }] //浏览器标签icon
