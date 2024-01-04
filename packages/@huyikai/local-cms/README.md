@@ -51,7 +51,9 @@ npm i @huyikai/local-cms -D
 [MIT](./license)
 
 ## Website
-https://huyikai.github.io/local-cms
+
+<https://huyikai.github.io/local-cms>
 
 ## Repository
-https://github.com/huyikai/local-cms
+
+<https://github.com/huyikai/local-cms>
