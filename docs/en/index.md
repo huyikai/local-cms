@@ -1,5 +1,5 @@
 ---
-title: home|zh-cn
+title: home|en
 layout: custom
 aside: false
 sidebar: false

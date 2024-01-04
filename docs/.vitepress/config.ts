@@ -32,6 +32,16 @@ const vitepressConfig = {
       prev: 'Pervious',
       next: 'Next'
     }
+  },
+  locales: {
+    root: {
+      label: '简体中文',
+      lang: 'zh'
+    },
+    en: {
+      label: 'English',
+      lang: 'en'
+    }
   }
 };
 export default async () => {
