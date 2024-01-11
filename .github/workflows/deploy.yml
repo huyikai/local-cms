@@ -17,12 +17,12 @@ jobs:
           npm i
           cd packages/@huyikai/local-cms
           npm i
+          cd cms
+          npm i
+          cd ..
           npm run build
       - name: Build Docs
         run: |
-          pwd
-          cd ~/
-          pwd
           npm i
           npm run build
         env:
