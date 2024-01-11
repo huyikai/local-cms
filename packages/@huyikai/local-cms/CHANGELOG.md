@@ -1,5 +1,7 @@
 
 
+## [0.0.22](https://github.com/huyikai/local-cms/compare/v0.0.2...v0.0.22) (2024-01-11)
+
 ## [0.0.2](https://github.com/huyikai/local-cms/compare/v0.0.1-alpha.69...v0.0.2) (2024-01-11)
 
 
