@@ -1,4 +1,4 @@
-// import addShebang from 'rollup-plugin-add-shebang';
+import addShebang from 'rollup-plugin-add-shebang';
 import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 
@@ -26,7 +26,7 @@ export default [
     plugins: [
       typescript(),
       terser(),
-      // addShebang({ include: 'lib/bin/cli.js' })
+      addShebang({ include: 'lib/bin/cli.js' })
     ]
   }
 ];
