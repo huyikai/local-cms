@@ -1,4 +1,6 @@
 cms
 cms.ts
 bin/cli.ts
+cli/create.ts
 CHANGELOG.md
+tsconfig.json

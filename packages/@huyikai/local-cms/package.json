@@ -19,22 +19,22 @@
   "license": "MIT",
   "author": "huyikai",
   "type": "module",
-  "main": "bin/cli.js",
+  "main": "./bin/cli.js",
   "bin": {
-    "cms": "bin/cli.js"
+    "cms": "./bin/cli.js"
   },
   "files": [
     "dist",
     "package.json",
     "bin/cli.js",
     "lib/create.js",
+    "template",
     "cms.js"
   ],
   "scripts": {
     "build": "cd cms && npm run build && cd .. && npm run tsc",
     "cms": "npm run tsc && node cms.js ../../../docs",
     "dev": "cd cms && npm run dev",
-    "publish-npm": "cd cms && npm run build && cd .. && npm run tsc && npm publish",
     "release": "release-it",
     "tsc": "tsc -p ./tsconfig.json"
   },
@@ -43,7 +43,6 @@
     "child_process": "^1.0.2",
     "chokidar": "^3.5.3",
     "commander": "^11.0.0",
-    "download-git-repo": "^3.0.2",
     "express": "^4.18.2",
     "figlet": "^1.6.0",
     "fs-extra": "^11.1.1",
@@ -64,22 +63,5 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org"
-  },
-  "release-it": {
-    "git": {
-      "commitMessage": "release: v${version}"
-    },
-    "hooks": {
-      "after:bump": "echo 更新版本成功"
-    },
-    "github": {
-      "release": false
-    },
-    "plugins": {
-      "@release-it/conventional-changelog": {
-        "preset": "angular",
-        "infile": "CHANGELOG.md"
-      }
-    }
   }
 }

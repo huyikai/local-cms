@@ -1,0 +1,28 @@
+{
+  "name": "my-project",
+  "version": "1.0.0",
+  "private": true,
+  "description": "develop base on vitepress-helper",
+  "keywords": [
+    "vite",
+    "vitepress",
+    "vitepress-helper"
+  ],
+  "homepage": "https://github.com/huyikai/vitepress-helper",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/huyikai/vitepress-helper"
+  },
+  "license": "MIT",
+  "author": "huyikai",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vitepress dev docs",
+    "build": "vitepress build docs"
+  },
+  "devDependencies": {
+    "vitepress": "^1.0.0-rc.31",
+    "vue": "^3.3.9"
+  }
+}

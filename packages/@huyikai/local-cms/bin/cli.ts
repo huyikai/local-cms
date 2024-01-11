@@ -4,7 +4,7 @@ import { exec, execSync } from 'child_process';
 
 import { Command } from 'commander';
 import chalk from 'chalk';
-import create from '../lib/create';
+import create from './../lib/create';
 import figlet from 'figlet';
 import { fileURLToPath } from 'url';
 import fs from 'fs-extra';
