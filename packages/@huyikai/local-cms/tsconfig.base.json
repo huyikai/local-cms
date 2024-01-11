@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        // 设置编译目标为 ES2020
+        "target": "ES2020",
+        // 设置模块为 ESNext
+        "module": "ESNext",
+        // 设置模块解析方式为 node
+        "moduleResolution": "node",
+        // 开启严格模式
+        "strict": true,
+        // 生成声明文件
+        "declaration": true,
+        // 禁止在子类中重写父类中的方法
+        "noImplicitOverride": true,
+        // 检查未使用的局部变量
+        "noUnusedLocals": true,
+        // 允许使用 ES 模块的默认导出和命名空间导出
+        "esModuleInterop": true,
+        // 不允许在 catch 语句中使用未知类型
+        "useUnknownInCatchVariables": false
+    }
+}

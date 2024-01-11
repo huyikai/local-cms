@@ -1,9 +1,12 @@
 {
-  "extends": "../../../tsconfig.json",
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "declaration": true, // 生成 `.d.ts` 文件
-    "removeComments": true // 移除注释
+    "removeComments": true, // 移除注释
+    "moduleResolution": "bundler",
+    "declarationDir": "lib/types",
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   },
   "include": [
     "**/*.ts",
@@ -11,6 +14,14 @@
   ],
   "exclude": [
     "cms/*",
-    "template/*"
-  ]
+    "template/*",
+    "**/node_modules/**",
+    "**/lib/**",
+    "**.config.ts"
+  ],
+  "paths": {
+    "@huyikai/local-cms": [
+      "bin/cli.ts"
+    ]
+  }
 }

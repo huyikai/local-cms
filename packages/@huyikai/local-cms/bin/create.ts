@@ -64,7 +64,7 @@ export default async (answers: Answers) => {
   };
   // 生成
   const generate = async () => {
-    spinner.start('Downloading template...');
+    spinner.start('Installing...');
     copyTemplate();
   };
 

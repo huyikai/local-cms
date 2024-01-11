@@ -4,7 +4,7 @@ import { exec, execSync } from 'child_process';
 
 import { Command } from 'commander';
 import chalk from 'chalk';
-import create from './../lib/create';
+import create from './create';
 import figlet from 'figlet';
 import { fileURLToPath } from 'url';
 import fs from 'fs-extra';
@@ -27,7 +27,7 @@ const cwd = process.cwd();
 const blodText = (text: string) => chalk.blue.bold(text);
 // 依赖存放目录
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const packagePath = path.join(__dirname, './../package.json');
+const packagePath = path.join(__dirname, './../../package.json');
 const packageJson = JSON.parse(fs.readFileSync(packagePath, 'utf8'));
 
 // 设置程序的版本信息，用户可以通过 -v,-V, --version 参数查看当前版本信息

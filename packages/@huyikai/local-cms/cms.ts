@@ -4,7 +4,7 @@ import { exec } from "child_process";
 import express from "express";
 import { fileURLToPath } from "url";
 import fs from "fs";
-import { globby } from "globby";
+import globby from "globby";
 import net from "net";
 import path from "path";
 

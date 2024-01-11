@@ -1,6 +1,8 @@
 cms
 cms.ts
-bin/cli.ts
-cli/create.ts
+bin/
 CHANGELOG.md
 tsconfig.json
+tsconfig.base.json
+rollup.config.ts
+rollup.config.d.ts
