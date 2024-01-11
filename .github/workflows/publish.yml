@@ -17,7 +17,7 @@ jobs:
           npm i
           cd packages/@huyikai/local-cms
           npm i
-          npm run tsc
+          npm run build
       - name: Install and Build   
         run: |
           npm i
