@@ -60,6 +60,7 @@ Then modify the `package.json` file, add the `cms` command.
 - Version control
 - Static resource (image) management
 - Internationalization
+- vitepress editor preview theme
 
 ## License
 
