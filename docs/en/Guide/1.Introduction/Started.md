@@ -4,13 +4,13 @@
 
 `local-cms` provides an initialization guide. You can choose the following ways to use the initialization guide:
 
-### npx
+### npx 
 
-You can run the initialization guide directly through `npx`.
+You can run the initialization guide directly through `npx`.  
 
 ```shell
 npx @huyikai/local-cms init
-```
+``` 
 
 ### Global Installation Dependencies
 

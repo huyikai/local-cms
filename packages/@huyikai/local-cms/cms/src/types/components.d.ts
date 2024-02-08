@@ -42,7 +42,6 @@ declare module '@vue/runtime-core' {
     HomeOutlined: typeof import('@ant-design/icons-vue')['HomeOutlined']
     Layout: typeof import('./../components/Layout/index.vue')['default']
     MailOutlined: typeof import('@ant-design/icons-vue')['MailOutlined']
-    MDEditor: typeof import('@bytemd/vue-next')['Editor']
     Modal: typeof import('./../components/Modal/index.vue')['default']
     NewDirectory: typeof import('./../components/Modal/NewDirectory/index.vue')['default']
     NewFile: typeof import('./../components/Modal/NewFile/index.vue')['default']
