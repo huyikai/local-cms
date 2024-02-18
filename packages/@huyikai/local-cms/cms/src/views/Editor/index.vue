@@ -1,18 +1,13 @@
 <script setup lang="ts">
 import MarkdownIt from 'markdown-it';
 import { useEditor } from '@/stores/editor';
-// import gfm from '@bytemd/plugin-gfm';
-// import 'bytemd/dist/index.css';
-// import VPContent from 'vitepress/dist/client/theme-default/components/VPContent.vue';
+
 import {
   getFileContent,
   modifyFileContent,
   getFileGitInfo
 } from '@/api/editor';
-import {
-  componentPlugin,
-  type ComponentPluginOptions
-} from '@mdit-vue/plugin-component';
+import { componentPlugin } from '@mdit-vue/plugin-component';
 
 import { slugify } from '@mdit-vue/shared';
 import { tocPlugin } from '@mdit-vue/plugin-toc';

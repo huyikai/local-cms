@@ -2,14 +2,14 @@
 // 1. adding target="_blank" to external links
 // 2. normalize internal links to end with `.html`
 
-import type MarkdownIt from 'markdown-it';
-import { URL } from 'url';
 import {
   EXTERNAL_URL_RE,
   isExternal,
-  treatAsHtml,
-  type MarkdownEnv
+  treatAsHtml
 } from 'vitepress/dist/client/shared.js';
+
+import type MarkdownIt from 'markdown-it';
+import { URL } from 'url';
 
 const indexRE = /(^|.*\/)index.md(#?.*)$/i;
 
@@ -18,13 +18,7 @@ export const linkPlugin = (
   externalAttrs: Record<string, string>,
   base: string
 ) => {
-  md.renderer.rules.link_open = (
-    tokens,
-    idx,
-    options,
-    env: any,
-    self
-  ) => {
+  md.renderer.rules.link_open = (tokens, idx, options, env: any, self) => {
     const token = tokens[idx];
     const hrefIndex = token.attrIndex('href');
     if (hrefIndex >= 0) {
@@ -64,7 +58,7 @@ export const linkPlugin = (
     return self.renderToken(tokens, idx, options);
   };
 
-  function normalizeHref(hrefAttr: [string, string], env: MarkdownEnv) {
+  function normalizeHref(hrefAttr: [string, string], env: any) {
     let url = hrefAttr[1];
 
     const indexMatch = url.match(indexRE);
@@ -101,7 +95,7 @@ export const linkPlugin = (
     hrefAttr[1] = decodeURI(url);
   }
 
-  function pushLink(link: string, env: MarkdownEnv) {
+  function pushLink(link: string, env: any) {
     const links = env.links || (env.links = []);
     links.push(link);
   }

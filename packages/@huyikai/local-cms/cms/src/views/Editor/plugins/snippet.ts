@@ -1,8 +1,9 @@
-import type { MarkdownEnv } from 'vitepress/dist/client/shared.js'
-import type MarkdownIt from 'markdown-it'
-import type { RuleBlock } from 'markdown-it/lib/parser_block'
-import fs from 'fs-extra'
-import path from 'path'
+import type { AnyCnameRecord } from 'dns';
+// import type { MarkdownEnv } from 'vitepress/dist/client/shared.js';
+import type MarkdownIt from 'markdown-it';
+import type { RuleBlock } from 'markdown-it/lib/parser_block';
+import fs from 'fs-extra';
+import path from 'path';
 
 /**
  * raw path format: "/path/to/file.extension#region {meta} [title]"
@@ -16,7 +17,7 @@ import path from 'path'
  * captures: ['/path/to/file.extension', 'extension', '#region', '{meta}', '[title]']
  */
 export const rawPathRegexp =
-  /^(.+?(?:(?:\.([a-z0-9]+))?))(?:(#[\w-]+))?(?: ?(?:{(\d+(?:[,-]\d+)*)? ?(\S+)?}))? ?(?:\[(.+)\])?$/
+  /^(.+?(?:(?:\.([a-z0-9]+))?))(?:(#[\w-]+))?(?: ?(?:{(\d+(?:[,-]\d+)*)? ?(\S+)?}))? ?(?:\[(.+)\])?$/;
 
 export function rawPathToToken(rawPath: string) {
   const [
@@ -26,28 +27,28 @@ export function rawPathToToken(rawPath: string) {
     lines = '',
     lang = '',
     rawTitle = ''
-  ] = (rawPathRegexp.exec(rawPath) || []).slice(1)
+  ] = (rawPathRegexp.exec(rawPath) || []).slice(1);
 
-  const title = rawTitle || filepath.split('/').pop() || ''
+  const title = rawTitle || filepath.split('/').pop() || '';
 
-  return { filepath, extension, region, lines, lang, title }
+  return { filepath, extension, region, lines, lang, title };
 }
 
 export function dedent(text: string): string {
-  const lines = text.split('\n')
+  const lines = text.split('\n');
 
   const minIndentLength = lines.reduce((acc, line) => {
     for (let i = 0; i < line.length; i++) {
-      if (line[i] !== ' ' && line[i] !== '\t') return Math.min(i, acc)
+      if (line[i] !== ' ' && line[i] !== '\t') return Math.min(i, acc);
     }
-    return acc
-  }, Infinity)
+    return acc;
+  }, Infinity);
 
   if (minIndentLength < Infinity) {
-    return lines.map((x) => x.slice(minIndentLength)).join('\n')
+    return lines.map((x) => x.slice(minIndentLength)).join('\n');
   }
 
-  return text
+  return text;
 }
 
 function testLine(
@@ -56,14 +57,14 @@ function testLine(
   regionName: string,
   end: boolean = false
 ) {
-  const [full, tag, name] = regexp.exec(line.trim()) || []
+  const [full, tag, name] = regexp.exec(line.trim()) || [];
 
   return (
     full &&
     tag &&
     name === regionName &&
     tag.match(end ? /^[Ee]nd ?[rR]egion$/ : /^[rR]egion$/)
-  )
+  );
 }
 
 function findRegion(lines: Array<string>, regionName: string) {
@@ -75,106 +76,109 @@ function findRegion(lines: Array<string>, regionName: string) {
     /^#((?:End )Region) ([\w*-]+)$/, // Visual Basic
     /^::#((?:end)region) ([\w*-]+)$/, // Bat
     /^# ?((?:end)?region) ([\w*-]+)$/ // C#, PHP, Powershell, Python, perl & misc
-  ]
+  ];
 
-  let regexp = null
-  let start = -1
+  let regexp = null;
+  let start = -1;
 
   for (const [lineId, line] of lines.entries()) {
     if (regexp === null) {
       for (const reg of regionRegexps) {
         if (testLine(line, reg, regionName)) {
-          start = lineId + 1
-          regexp = reg
-          break
+          start = lineId + 1;
+          regexp = reg;
+          break;
         }
       }
     } else if (testLine(line, regexp, regionName, true)) {
-      return { start, end: lineId, regexp }
+      return { start, end: lineId, regexp };
     }
   }
 
-  return null
+  return null;
 }
 
 export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
   const parser: RuleBlock = (state, startLine, endLine, silent) => {
-    const CH = '<'.charCodeAt(0)
-    const pos = state.bMarks[startLine] + state.tShift[startLine]
-    const max = state.eMarks[startLine]
+    const CH = '<'.charCodeAt(0);
+    const pos = state.bMarks[startLine] + state.tShift[startLine];
+    const max = state.eMarks[startLine];
 
     // if it's indented more than 3 spaces, it should be a code block
     if (state.sCount[startLine] - state.blkIndent >= 4) {
-      return false
+      return false;
     }
 
     for (let i = 0; i < 3; ++i) {
-      const ch = state.src.charCodeAt(pos + i)
-      if (ch !== CH || pos + i >= max) return false
+      const ch = state.src.charCodeAt(pos + i);
+      if (ch !== CH || pos + i >= max) return false;
     }
 
     if (silent) {
-      return true
+      return true;
     }
 
-    const start = pos + 3
-    const end = state.skipSpacesBack(max, pos)
+    const start = pos + 3;
+    const end = state.skipSpacesBack(max, pos);
 
     const rawPath = state.src
       .slice(start, end)
       .trim()
       .replace(/^@/, srcDir)
-      .trim()
+      .trim();
 
     const { filepath, extension, region, lines, lang, title } =
-      rawPathToToken(rawPath)
+      rawPathToToken(rawPath);
 
-    state.line = startLine + 1
+    state.line = startLine + 1;
 
-    const token = state.push('fence', 'code', 0)
+    const token = state.push('fence', 'code', 0);
     token.info = `${lang || extension}${lines ? `{${lines}}` : ''}${
       title ? `[${title}]` : ''
-    }`
+    }`;
 
-    const { realPath, path: _path } = state.env as MarkdownEnv
-    const resolvedPath = path.resolve(path.dirname(realPath ?? _path), filepath)
+    const { realPath, path: _path } = state.env as any;
+    const resolvedPath = path.resolve(
+      path.dirname(realPath ?? _path),
+      filepath
+    );
 
     // @ts-ignore
-    token.src = [resolvedPath, region.slice(1)]
-    token.markup = '```'
-    token.map = [startLine, startLine + 1]
+    token.src = [resolvedPath, region.slice(1)];
+    token.markup = '```';
+    token.map = [startLine, startLine + 1];
 
-    return true
-  }
+    return true;
+  };
 
-  const fence = md.renderer.rules.fence!
+  const fence = md.renderer.rules.fence!;
 
   md.renderer.rules.fence = (...args) => {
-    const [tokens, idx, , { includes }] = args
-    const token = tokens[idx]
+    const [tokens, idx, , { includes }] = args;
+    const token = tokens[idx];
     // @ts-ignore
-    const [src, regionName] = token.src ?? []
+    const [src, regionName] = token.src ?? [];
 
-    if (!src) return fence(...args)
+    if (!src) return fence(...args);
 
     if (includes) {
-      includes.push(src)
+      includes.push(src);
     }
 
-    const isAFile = fs.statSync(src).isFile()
+    const isAFile = fs.statSync(src).isFile();
     if (!fs.existsSync(src) || !isAFile) {
       token.content = isAFile
         ? `Code snippet path not found: ${src}`
-        : `Invalid code snippet option`
-      token.info = ''
-      return fence(...args)
+        : `Invalid code snippet option`;
+      token.info = '';
+      return fence(...args);
     }
 
-    let content = fs.readFileSync(src, 'utf8').replace(/\r\n/g, '\n')
+    let content = fs.readFileSync(src, 'utf8').replace(/\r\n/g, '\n');
 
     if (regionName) {
-      const lines = content.split('\n')
-      const region = findRegion(lines, regionName)
+      const lines = content.split('\n');
+      const region = findRegion(lines, regionName);
 
       if (region) {
         content = dedent(
@@ -182,13 +186,13 @@ export const snippetPlugin = (md: MarkdownIt, srcDir: string) => {
             .slice(region.start, region.end)
             .filter((line) => !region.regexp.test(line.trim()))
             .join('\n')
-        )
+        );
       }
     }
 
-    token.content = content
-    return fence(...args)
-  }
+    token.content = content;
+    return fence(...args);
+  };
 
-  md.block.ruler.before('fence', 'snippet', parser)
-}
+  md.block.ruler.before('fence', 'snippet', parser);
+};
