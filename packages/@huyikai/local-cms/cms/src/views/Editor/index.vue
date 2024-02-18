@@ -34,7 +34,9 @@ const router = useRouter();
 const useEditorStore = useEditor();
 
 const loading = ref(false);
-const content = ref('');
+const undoStack: any = ref([]);
+const redoStack: any = ref([]);
+const content: any = ref('');
 const renderedMarkdown = ref(''); // 使用一个普通的响应式引用来存储渲染后的Markdown
 
 const debouncedFn = useDebounceFn(
@@ -126,10 +128,68 @@ const md = async () => {
 const preview = ref(null);
 const editor = ref(null);
 const updatePreview = async (event: any) => {
+  undoStack.value.push(JSON.parse(JSON.stringify(content.value)));
   content.value = event.target.value;
+  redoStack.value = [];
   renderedMarkdown.value = await md();
   debouncedFn();
 };
+
+// 撤销操作
+const undo = async () => {
+  if (undoStack.value.length > 0) {
+    redoStack.value.push(JSON.parse(JSON.stringify(content.value))); // 将当前状态推入重做栈
+    const lastState = undoStack.value.pop();
+    content.value = lastState; // 更新内容为上一个状态
+    renderedMarkdown.value = await md();
+    debouncedFn();
+  }
+};
+
+// 重做操作
+const redo = async () => {
+  if (redoStack.value.length > 0) {
+    undoStack.value.push(JSON.parse(JSON.stringify(content.value))); // 将当前状态推入撤销栈
+    const nextState = redoStack.value.pop();
+    content.value = nextState; // 更新内容为下一个状态
+    renderedMarkdown.value = await md();
+    debouncedFn();
+  }
+};
+
+const clear = async () => {
+  undoStack.value.push(JSON.parse(JSON.stringify(content.value)));
+  content.value = '';
+  renderedMarkdown.value = await md();
+  debouncedFn();
+};
+
+const handleKeydown = (event: any) => {
+  const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+  const undoKey = isMac
+    ? event.metaKey && event.key === 'z'
+    : event.ctrlKey && event.key === 'z';
+  const redoKey = isMac
+    ? event.metaKey && event.shiftKey && event.key === 'Z'
+    : event.ctrlKey &&
+      (event.key === 'y' || (event.shiftKey && event.key === 'Z'));
+
+  if (undoKey) {
+    undo();
+    event.preventDefault();
+  } else if (redoKey) {
+    redo();
+    event.preventDefault();
+  }
+};
+
+onMounted(() => {
+  window.addEventListener('keydown', handleKeydown);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeydown);
+});
 
 const syncScroll = (event: any) => {
   const target = event.target;
@@ -158,11 +218,28 @@ const syncScroll = (event: any) => {
 </script>
 <template>
   <a-spin :spinning="loading">
+    <div class="tool-bar">
+      <a-button
+        type="text"
+        :disabled="!undoStack.length"
+        ><undo-outlined @click="undo"
+      /></a-button>
+      <a-button
+        type="text"
+        :disabled="!redoStack.length"
+        ><redo-outlined @click="redo"
+      /></a-button>
+      <a-button
+        type="text"
+        :disabled="content === ''"
+        ><clear-outlined @click="clear"
+      /></a-button>
+    </div>
     <div class="editor-preview-container">
       <textarea
         class="editor"
         @input="updatePreview"
-        v-model="content"
+        :value="content"
         ref="editor"
         @scroll="syncScroll"
       ></textarea>
@@ -176,14 +253,12 @@ const syncScroll = (event: any) => {
   </a-spin>
 </template>
 <style scoped lang="scss">
-:deep(.bytemd) {
-  height: calc(100vh - 60px);
-}
-
 .editor-preview-container {
   display: flex;
   gap: 20px;
-  height: calc(100vh - 60px);
+  padding-top: 10px;
+  box-sizing: border-box;
+  height: calc(100vh - 100px);
 }
 .editor,
 .preview {
@@ -194,5 +269,17 @@ const syncScroll = (event: any) => {
 }
 .editor {
   resize: none;
+}
+
+.tool-bar {
+  height: 40px;
+  // padding: 0 10px;
+  box-sizing: border-box;
+  background-color: #fff;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  // gap: 10px;
 }
 </style>

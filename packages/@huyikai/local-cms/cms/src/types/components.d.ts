@@ -30,6 +30,7 @@ declare module '@vue/runtime-core' {
     ATypographyText: typeof import('ant-design-vue/es')['TypographyText']
     ATypographyTitle: typeof import('ant-design-vue/es')['TypographyTitle']
     Catalog: typeof import('./../components/Layout/Catalog.vue')['default']
+    ClearOutlined: typeof import('@ant-design/icons-vue')['ClearOutlined']
     DeleteOutlined: typeof import('@ant-design/icons-vue')['DeleteOutlined']
     DownOutlined: typeof import('@ant-design/icons-vue')['DownOutlined']
     Editor: typeof import('./../views/Editor/index.vue')['default']
@@ -46,12 +47,14 @@ declare module '@vue/runtime-core' {
     NewDirectory: typeof import('./../components/Modal/NewDirectory/index.vue')['default']
     NewFile: typeof import('./../components/Modal/NewFile/index.vue')['default']
     QuestionCircleFilled: typeof import('@ant-design/icons-vue')['QuestionCircleFilled']
+    RedoOutlined: typeof import('@ant-design/icons-vue')['RedoOutlined']
     Rename: typeof import('./../components/Modal/Rename/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SearchOutlined: typeof import('@ant-design/icons-vue')['SearchOutlined']
     SideBar: typeof import('./../components/Layout/SideBar.vue')['default']
     StarFilled: typeof import('@ant-design/icons-vue')['StarFilled']
+    UndoOutlined: typeof import('@ant-design/icons-vue')['UndoOutlined']
     WechatFilled: typeof import('@ant-design/icons-vue')['WechatFilled']
   }
 }
