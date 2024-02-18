@@ -164,33 +164,6 @@ const clear = async () => {
   debouncedFn();
 };
 
-const handleKeydown = (event: any) => {
-  const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
-  const undoKey = isMac
-    ? event.metaKey && event.key === 'z'
-    : event.ctrlKey && event.key === 'z';
-  const redoKey = isMac
-    ? event.metaKey && event.shiftKey && event.key === 'Z'
-    : event.ctrlKey &&
-      (event.key === 'y' || (event.shiftKey && event.key === 'Z'));
-
-  if (undoKey) {
-    undo();
-    event.preventDefault();
-  } else if (redoKey) {
-    redo();
-    event.preventDefault();
-  }
-};
-
-onMounted(() => {
-  window.addEventListener('keydown', handleKeydown);
-});
-
-onUnmounted(() => {
-  window.removeEventListener('keydown', handleKeydown);
-});
-
 const syncScroll = (event: any) => {
   const target = event.target;
   const isEditor = target.classList.contains('editor');
@@ -215,25 +188,61 @@ const syncScroll = (event: any) => {
       (editorElement.scrollHeight - editorElement.clientHeight);
   }
 };
+const applyFormat = async (formatType: any) => {
+  const editorElement: any = editor.value;
+  let selectedText = window.getSelection()?.toString();
+  let formatString = '';
+  switch (formatType) {
+    case 'bold':
+      formatString = '**' + selectedText + '**';
+      break;
+    case 'italic':
+      formatString = '*' + selectedText + '*';
+      break;
+  }
+
+  if (editorElement) {
+    const start = editorElement.selectionStart;
+    const end = editorElement.selectionEnd;
+    if (selectedText) {
+      // 有选中的内容，修改选中的内容
+      content.value =
+        content.value.substring(0, start) +
+        formatString +
+        content.value.substring(end);
+      // 更新光标位置
+      editorElement.setSelectionRange(start, start + formatString.length);
+    } else if (document.activeElement === editorElement) {
+      // 没有选中的内容，但光标在编辑器中
+      content.value =
+        content.value.substring(0, start) +
+        formatString +
+        content.value.substring(start);
+      // 更新光标位置
+      editorElement.setSelectionRange(
+        start + formatString.length,
+        start + formatString.length
+      );
+    } else {
+      // 编辑器没有聚焦，直接在内容最后添加
+      content.value += '\n' + formatString;
+    }
+  } else {
+    // 编辑器不存在，直接在内容最后添加
+    content.value += '\n' + formatString;
+  }
+  renderedMarkdown.value = await md();
+};
 </script>
 <template>
   <a-spin :spinning="loading">
     <div class="tool-bar">
-      <a-button
-        type="text"
-        :disabled="!undoStack.length"
-        ><undo-outlined @click="undo"
-      /></a-button>
-      <a-button
-        type="text"
-        :disabled="!redoStack.length"
-        ><redo-outlined @click="redo"
-      /></a-button>
-      <a-button
-        type="text"
-        :disabled="content === ''"
-        ><clear-outlined @click="clear"
-      /></a-button>
+      <undo-outlined @click="undo" />
+      <redo-outlined @click="redo" />
+      <clear-outlined @click="clear" />
+      <a-divider type="vertical" />
+      <bold-outlined @click="applyFormat('bold')" />
+      <italic-outlined @click="applyFormat('italic')" />
     </div>
     <div class="editor-preview-container">
       <textarea
@@ -258,7 +267,7 @@ const syncScroll = (event: any) => {
   gap: 20px;
   padding-top: 10px;
   box-sizing: border-box;
-  height: calc(100vh - 100px);
+  height: calc(100vh - 80px);
 }
 .editor,
 .preview {
@@ -280,6 +289,6 @@ const syncScroll = (event: any) => {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  // gap: 10px;
+  gap: 15px;
 }
 </style>

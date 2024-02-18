@@ -6,7 +6,7 @@
         class="content"
         :style="{
           background: '#fff',
-          padding: '30px',
+          padding: '10px 30px 30px 30px',
           margin: 0,
           height: '100vh',
           overflowY: 'auto'

@@ -1,6 +1,6 @@
 # Getting Started
 
-## Initialization Guide
+## Initialization Guide123
 
 `local-cms` provides an initialization guide. You can choose the following ways to use the initialization guide:
 
