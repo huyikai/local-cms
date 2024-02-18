@@ -21,8 +21,14 @@ import { lineNumberPlugin } from './plugins/lineNumbers';
 import { preWrapperPlugin } from './plugins/preWrapper';
 import { full as emojiPlugin } from 'markdown-it-emoji';
 import anchorPlugin from 'markdown-it-anchor';
+// import { useCodeGroups } from 'vitepress/dist/client/app/composables/codeGroups.js';
 // import { snippetPlugin } from './plugins/snippet';
 // import { gitHubAlertsPlugin } from './plugins/githubAlerts';
+import { useCodeGroups } from './composables/codeGroups';
+import { useCopyCode } from './composables/copyCode';
+useCodeGroups();
+useCopyCode();
+
 const route = useRoute();
 const router = useRouter();
 const useEditorStore = useEditor();
@@ -152,13 +158,6 @@ const syncScroll = (event: any) => {
 </script>
 <template>
   <a-spin :spinning="loading">
-    <!-- <MDEditor
-      :value="content"
-      :plugins="plugins"
-      @change="handleChange"
-    /> -->
-    <!-- <div v-html="renderedMarkdown"></div> -->
-    <!-- <VPContent></VPContent> -->
     <div class="editor-preview-container">
       <textarea
         class="editor"
