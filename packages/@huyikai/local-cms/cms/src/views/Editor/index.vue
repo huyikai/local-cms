@@ -203,6 +203,9 @@ const applyFormat = async (formatType: any) => {
     case 'strikethrough':
       formatText = '~~';
       break;
+    case 'quote':
+      formatText = '> ';
+      break;
     case 'h1':
       formatText = '# ';
       break;
@@ -221,6 +224,7 @@ const applyFormat = async (formatType: any) => {
     case 'h6':
       formatText = '###### ';
       break;
+    // 可以根据需要添加更多格式化类型
   }
 
   const startPos = editorElement.selectionStart;
@@ -228,8 +232,8 @@ const applyFormat = async (formatType: any) => {
   const selectedText = editorElement.value.substring(startPos, endPos);
   const originalText = editorElement.value;
 
-  // 如果有选中内容，则给选中的内容增加格式
   if (selectedText) {
+    // 如果有选中内容，则给选中的内容增加格式
     editorElement.value =
       originalText.substring(0, startPos) +
       formatText +
@@ -238,51 +242,72 @@ const applyFormat = async (formatType: any) => {
         ? formatText
         : '') +
       originalText.substring(endPos);
-    // 更新选中区域，包括新增的格式文本
-    editorElement.setSelectionRange(
-      startPos,
-      endPos +
-        formatText.length +
-        (['bold', 'italic', 'strikethrough'].includes(formatType)
-          ? formatText.length
-          : 0)
-    );
+    editorElement.setSelectionRange(startPos, endPos + formatText.length * 2);
   } else {
-    // 对于标题，插入格式文本后不需要重复的格式符号
-    let insertText =
-      formatText +
-      (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(formatType)
-        ? '标题文本'
-        : formatText); // 默认插入文本为格式符号
+    // 如果没有选中内容，仅插入格式文本
     editorElement.value =
       originalText.substring(0, startPos) +
-      insertText +
+      formatText +
       originalText.substring(endPos);
-    // 更新光标位置到插入文本之后
     editorElement.setSelectionRange(
-      startPos + insertText.length,
-      startPos + insertText.length
+      startPos + formatText.length,
+      startPos + formatText.length
     );
   }
 
-  editorElement.dispatchEvent(new Event('input'));
-  renderedMarkdown.value = await md();
-  debouncedFn();
+  editorElement.focus(); // 保持焦点在编辑器上
+  editorElement.dispatchEvent(new Event('input')); // 触发input事件以更新数据
+  renderedMarkdown.value = await md(); // 重新渲染Markdown
+  debouncedFn(); // 应用防抖函数
 };
 </script>
 <template>
   <a-spin :spinning="loading">
     <div class="tool-bar">
-      <undo-outlined @click="undo" />
-      <redo-outlined @click="redo" />
-      <clear-outlined @click="clear" />
+      <a-button
+        class="tool-item"
+        type="text"
+        :disabled="!undoStack.length"
+      >
+        <undo-outlined
+          class="icon"
+          @click="undo"
+        />
+      </a-button>
+      <a-button
+        class="tool-item"
+        type="text"
+        :disabled="!redoStack.length"
+      >
+        <redo-outlined
+          class="icon"
+          @click="redo"
+        />
+      </a-button>
+      <a-button
+        class="tool-item"
+        type="text"
+        :disabled="content === ''"
+      >
+        <img
+          class="icon"
+          src="@/assets/eraser.svg"
+          @click="clear"
+        />
+      </a-button>
       <a-divider type="vertical" />
 
       <a-dropdown>
-        <div class="tool-item">
-          H
+        <a-button
+          class="tool-item"
+          type="text"
+        >
+          <img
+            class="icon"
+            src="@/assets/H.svg"
+          />
           <caret-down-outlined class="menu-arrow" />
-        </div>
+        </a-button>
         <template #overlay>
           <a-menu>
             <a-menu-item @click="applyFormat('h1')"> 一级标题 </a-menu-item>
@@ -294,9 +319,43 @@ const applyFormat = async (formatType: any) => {
           </a-menu>
         </template>
       </a-dropdown>
-      <bold-outlined @click="applyFormat('bold')" />
-      <italic-outlined @click="applyFormat('italic')" />
-      <strikethrough-outlined @click="applyFormat('strikethrough')" />
+      <a-button
+        class="tool-item"
+        type="text"
+      >
+        <bold-outlined
+          class="icon"
+          @click="applyFormat('bold')"
+        />
+      </a-button>
+      <a-button
+        class="tool-item"
+        type="text"
+      >
+        <italic-outlined
+          class="icon"
+          @click="applyFormat('italic')"
+        />
+      </a-button>
+      <a-button
+        class="tool-item"
+        type="text"
+      >
+        <strikethrough-outlined
+          class="icon"
+          @click="applyFormat('strikethrough')"
+        />
+      </a-button>
+      <a-button
+        class="tool-item"
+        type="text"
+      >
+        <img
+          class="icon"
+          src="@/assets/quote.svg"
+          @click="applyFormat('quote')"
+        />
+      </a-button>
     </div>
     <div class="editor-preview-container">
       <textarea
@@ -343,10 +402,17 @@ const applyFormat = async (formatType: any) => {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  gap: 15px;
   .tool-item {
+    display: flex;
+    align-items: center;
     cursor: pointer;
     user-select: none;
+    padding: 0 6px;
+    box-sizing: border-box;
+    .icon {
+      width: 16px;
+      font-size: 15px;
+    }
     .menu-arrow {
       font-size: 10px;
     }

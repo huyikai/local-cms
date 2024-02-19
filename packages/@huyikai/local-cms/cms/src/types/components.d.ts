@@ -21,6 +21,7 @@ declare module '@vue/runtime-core' {
     AMenu: typeof import('ant-design-vue/es')['Menu']
     AMenuItem: typeof import('ant-design-vue/es')['MenuItem']
     AModal: typeof import('ant-design-vue/es')['Modal']
+    AQuoteOutlined: typeof import('@ant-design/icons-vue')['AQuoteOutlined']
     ASpace: typeof import('ant-design-vue/es')['Space']
     ASpin: typeof import('ant-design-vue/es')['Spin']
     ATooltip: typeof import('ant-design-vue/es')['Tooltip']
