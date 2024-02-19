@@ -10,6 +10,7 @@ A Management System for Managing Local markdown Files
 - Addition, deletion, modification and search of files/directories
 - Edit Live Preview
 - Save in real time without manual save
+- Vitepress theme style editor
 
 ## Usage
 
