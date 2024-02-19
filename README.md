@@ -14,11 +14,11 @@ A Management System for Managing Local markdown Files
 
 ## Usage
 
-## Initialization Guide
+### Initialization Guide
 
 `local-cms` provides an initialization guide. You can choose the following ways to use the initialization guide:
 
-### npx
+#### npx
 
 You can run the initialization guide directly through `npx`.
 
@@ -26,7 +26,7 @@ You can run the initialization guide directly through `npx`.
 npx @huyikai/local-cms init
 ```
 
-### Global Installation Dependencies
+#### Global Installation Dependencies
 
 Install `local-cms` globally, then run the initialization guide through the `cms` command.
 
@@ -35,7 +35,7 @@ npm i @huyikai/local-cms -g
 cms init
 ```
 
-## Manual Installation
+### Manual Installation
 
 Install `local-cms` into the project's development dependencies.
 
@@ -60,8 +60,6 @@ Then modify the `package.json` file, add the `cms` command.
 - Linked content import
 - Version control
 - Static resource (image) management
-- Internationalization
-- vitepress editor preview theme
 
 ## License
 
