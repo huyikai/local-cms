@@ -190,48 +190,84 @@ const syncScroll = (event: any) => {
 };
 const applyFormat = async (formatType: any) => {
   const editorElement: any = editor.value;
-  let selectedText = window.getSelection()?.toString();
-  let formatString = '';
+  if (!editorElement) return;
+
+  let formatText = '';
   switch (formatType) {
     case 'bold':
-      formatString = '**' + selectedText + '**';
+      formatText = '**';
       break;
     case 'italic':
-      formatString = '*' + selectedText + '*';
+      formatText = '*';
+      break;
+    case 'strikethrough':
+      formatText = '~~';
+      break;
+    case 'h1':
+      formatText = '# ';
+      break;
+    case 'h2':
+      formatText = '## ';
+      break;
+    case 'h3':
+      formatText = '### ';
+      break;
+    case 'h4':
+      formatText = '#### ';
+      break;
+    case 'h5':
+      formatText = '##### ';
+      break;
+    case 'h6':
+      formatText = '###### ';
       break;
   }
 
-  if (editorElement) {
-    const start = editorElement.selectionStart;
-    const end = editorElement.selectionEnd;
-    if (selectedText) {
-      // 有选中的内容，修改选中的内容
-      content.value =
-        content.value.substring(0, start) +
-        formatString +
-        content.value.substring(end);
-      // 更新光标位置
-      editorElement.setSelectionRange(start, start + formatString.length);
-    } else if (document.activeElement === editorElement) {
-      // 没有选中的内容，但光标在编辑器中
-      content.value =
-        content.value.substring(0, start) +
-        formatString +
-        content.value.substring(start);
-      // 更新光标位置
-      editorElement.setSelectionRange(
-        start + formatString.length,
-        start + formatString.length
-      );
-    } else {
-      // 编辑器没有聚焦，直接在内容最后添加
-      content.value += '\n' + formatString;
-    }
+  const startPos = editorElement.selectionStart;
+  const endPos = editorElement.selectionEnd;
+  const selectedText = editorElement.value.substring(startPos, endPos);
+  const originalText = editorElement.value;
+
+  // 如果有选中内容，则给选中的内容增加格式
+  if (selectedText) {
+    editorElement.value =
+      originalText.substring(0, startPos) +
+      formatText +
+      selectedText +
+      (['bold', 'italic', 'strikethrough'].includes(formatType)
+        ? formatText
+        : '') +
+      originalText.substring(endPos);
+    // 更新选中区域，包括新增的格式文本
+    editorElement.setSelectionRange(
+      startPos,
+      endPos +
+        formatText.length +
+        (['bold', 'italic', 'strikethrough'].includes(formatType)
+          ? formatText.length
+          : 0)
+    );
   } else {
-    // 编辑器不存在，直接在内容最后添加
-    content.value += '\n' + formatString;
+    // 对于标题，插入格式文本后不需要重复的格式符号
+    let insertText =
+      formatText +
+      (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(formatType)
+        ? '标题文本'
+        : formatText); // 默认插入文本为格式符号
+    editorElement.value =
+      originalText.substring(0, startPos) +
+      insertText +
+      originalText.substring(endPos);
+    // 更新光标位置到插入文本之后
+    editorElement.setSelectionRange(
+      startPos + insertText.length,
+      startPos + insertText.length
+    );
   }
+
+  editorElement.dispatchEvent(new Event('input'));
   renderedMarkdown.value = await md();
+  debouncedFn();
 };
 </script>
 <template>
@@ -241,8 +277,26 @@ const applyFormat = async (formatType: any) => {
       <redo-outlined @click="redo" />
       <clear-outlined @click="clear" />
       <a-divider type="vertical" />
+
+      <a-dropdown>
+        <div class="tool-item">
+          H
+          <caret-down-outlined class="menu-arrow" />
+        </div>
+        <template #overlay>
+          <a-menu>
+            <a-menu-item @click="applyFormat('h1')"> 一级标题 </a-menu-item>
+            <a-menu-item @click="applyFormat('h2')"> 二级标题 </a-menu-item>
+            <a-menu-item @click="applyFormat('h3')"> 三级标题 </a-menu-item>
+            <a-menu-item @click="applyFormat('h4')"> 四级标题 </a-menu-item>
+            <a-menu-item @click="applyFormat('h5')"> 五级标题 </a-menu-item>
+            <a-menu-item @click="applyFormat('h6')"> 六级标题 </a-menu-item>
+          </a-menu>
+        </template>
+      </a-dropdown>
       <bold-outlined @click="applyFormat('bold')" />
       <italic-outlined @click="applyFormat('italic')" />
+      <strikethrough-outlined @click="applyFormat('strikethrough')" />
     </div>
     <div class="editor-preview-container">
       <textarea
@@ -290,5 +344,12 @@ const applyFormat = async (formatType: any) => {
   flex-flow: row nowrap;
   align-items: center;
   gap: 15px;
+  .tool-item {
+    cursor: pointer;
+    user-select: none;
+    .menu-arrow {
+      font-size: 10px;
+    }
+  }
 }
 </style>

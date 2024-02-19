@@ -31,6 +31,7 @@ declare module '@vue/runtime-core' {
     ATypographyText: typeof import('ant-design-vue/es')['TypographyText']
     ATypographyTitle: typeof import('ant-design-vue/es')['TypographyTitle']
     BoldOutlined: typeof import('@ant-design/icons-vue')['BoldOutlined']
+    CaretDownOutlined: typeof import('@ant-design/icons-vue')['CaretDownOutlined']
     Catalog: typeof import('./../components/Layout/Catalog.vue')['default']
     ClearOutlined: typeof import('@ant-design/icons-vue')['ClearOutlined']
     DeleteOutlined: typeof import('@ant-design/icons-vue')['DeleteOutlined']
@@ -63,6 +64,7 @@ declare module '@vue/runtime-core' {
     SearchOutlined: typeof import('@ant-design/icons-vue')['SearchOutlined']
     SideBar: typeof import('./../components/Layout/SideBar.vue')['default']
     StarFilled: typeof import('@ant-design/icons-vue')['StarFilled']
+    StrikethroughOutlined: typeof import('@ant-design/icons-vue')['StrikethroughOutlined']
     UndoOutlined: typeof import('@ant-design/icons-vue')['UndoOutlined']
     WechatFilled: typeof import('@ant-design/icons-vue')['WechatFilled']
   }
