@@ -116,10 +116,12 @@ const createMarkdownItInstance = async () => {
       slugify,
       permalink: anchorPlugin.permalink.linkInsideHeader({
         symbol: '&ZeroWidthSpace;',
-        renderAttrs: (slug: any, state: any) => {
-          const idx = state.tokens.findIndex((token: any) => {
+        renderAttrs: (slug: string, state: any) => {
+          const idx = state.tokens.findIndex((token: MarkdownIt.Token) => {
             const attrs = token.attrs;
-            const id = attrs?.find((attr: any) => attr[0] === 'id');
+            const id = attrs?.find(
+              (attr: [string, string]) => attr[0] === 'id'
+            );
             return id && slug === id[1];
           });
           const title = state.tokens[idx + 1].content;
