@@ -137,7 +137,7 @@ const mdRender = async () => {
   const instance = await mdInstancePromise;
   return instance.render(content.value);
 };
-const preview = ref(null);
+const preview = ref<HTMLDivElement | null>(null);
 const editor = ref<HTMLTextAreaElement | null>(null);
 const updatePreview = async (event: Event) => {
   if (event.target !== null && event instanceof InputEvent) {
@@ -178,11 +178,11 @@ const clear = async () => {
   debouncedFn();
 };
 
-const syncScroll = (event: any) => {
-  const target = event.target;
+const syncScroll = (event: Event) => {
+  const target = event.target as HTMLElement;
   const isEditor = target.classList.contains('editor');
-  const editorElement: any = editor.value;
-  const previewElement: any = preview.value;
+  const editorElement = editor.value;
+  const previewElement = preview.value;
   if (!editorElement || !previewElement) return;
 
   let scrollPercentage = 0;
