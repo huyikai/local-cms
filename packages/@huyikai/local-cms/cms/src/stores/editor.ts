@@ -1,19 +1,45 @@
-import { getDirectory } from '@/api/editor';
 import { arrayToTree, treeToArray } from 'tree-conver';
+
+import { getDirectory } from '@/api/editor';
+
+interface BaseItem {
+  name: string;
+  isDirectory: boolean;
+  isLeaf: boolean;
+  path: string;
+  parentPath?: string;
+  key: string;
+}
+
+interface DirectoryItem extends BaseItem {
+  isDirectory: true;
+  isLeaf: false;
+  children: Array<DirectoryItem | FileItem>;
+}
+
+interface FileItem extends BaseItem {
+  isDirectory: false;
+  isLeaf: true;
+}
+
+type TreeItem = DirectoryItem | FileItem;
+
 export const useEditor = defineStore('useEditor', () => {
-  const loading = ref(false);
+  const loading = ref<boolean>(false);
   // 文件的树形结构数据
-  const treeData = ref([]);
+  const treeData = ref<TreeItem[]>([]);
 
   // 文件的扁平结构数据
-  const flatData = computed(() => treeToArray(treeData.value));
+  const flatData = computed<Array<BaseItem>>(
+    () => treeToArray(treeData.value) as Array<BaseItem>
+  );
 
   // 文件仅目录的树形结构数据
   const directory = computed(() =>
     arrayToTree(
       flatData.value
-        .filter((item: any) => item.isDirectory)
-        .map((item: any) => ({
+        .filter((item: BaseItem) => item.isDirectory)
+        .map((item: BaseItem) => ({
           id: item.path,
           name: item.name,
           path: item.path,
