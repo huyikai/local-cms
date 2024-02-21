@@ -2,7 +2,7 @@ import { arrayToTree, treeToArray } from 'tree-conver';
 
 import { getDirectory } from '@/api/editor';
 
-interface BaseItem {
+export interface BaseItem {
   name: string;
   isDirectory: boolean;
   isLeaf: boolean;

@@ -24,7 +24,7 @@ const _visible = computed({
 });
 
 const useEditorStore = useEditor();
-const _path: any = computed({
+const _path = computed<string | undefined>({
   get() {
     return props.path || undefined;
   },
