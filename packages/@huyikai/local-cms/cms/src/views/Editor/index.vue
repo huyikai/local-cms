@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import MarkdownIt from 'markdown-it';
-import { useEditor } from '@/stores/editor';
+import { useEditor, type BaseItem } from '@/stores/editor';
 
 import {
   getFileContent,
@@ -43,7 +43,7 @@ const debouncedFn = useDebounceFn(
   () => {
     const path: string = route.query.path as string;
     const file = useEditorStore.flatData.find(
-      (item: any) => item.path === decodeURIComponent(path)
+      (item: BaseItem) => item.path === decodeURIComponent(path)
     );
     if (!file) {
       console.error('File not found');
@@ -59,7 +59,7 @@ const debouncedFn = useDebounceFn(
   { maxWait: 5000 }
 );
 
-const getContent = (path: any) => {
+const getContent = (path: string) => {
   loading.value = true;
   renderedMarkdown.value = '';
   content.value = '';
@@ -79,9 +79,9 @@ watch(
   () => [route.query, useEditorStore.flatData],
   (n) => {
     if (!!n[0] && 'path' in n[0] && useEditorStore.flatData.length) {
-      const path: any = n[0].path;
-      const file: any = useEditorStore.flatData.find(
-        (item: any) => item.path === decodeURIComponent(path)
+      const path: string = n[0].path as string;
+      const file: BaseItem | undefined = useEditorStore.flatData.find(
+        (item: BaseItem) => item.path === decodeURIComponent(path)
       );
       if (file && file.path) {
         getContent(file.path);
