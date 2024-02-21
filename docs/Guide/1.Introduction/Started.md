@@ -2,42 +2,6 @@
 
 ## 初始化向导
 
-## 使用自定义锚点 {#my-anchor}
-
-## Emoji 🎉
-
-[[toc]]
-
-`113`
-
-:tada: :100:
-
-::: code-group
-
-```sh [npm]
-$ npm add -D vitepress
-```
-
-```sh [pnpm]
-$ pnpm add -D vitepress
-```
-
-```sh [yarn]
-$ yarn add -D vitepress
-```
-
-```sh [bun]
-$ bun add -D vitepress
-```
-
-:::
-
-| Tables        |      Are      |  Cool |
-| ------------- | :-----------: | ----: |
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      |   centered    |   $12 |
-| zebra stripes |   are neat    |    $1 |
-
 `local-cms` 提供了一个初始化向导。你可以选择以下方式来使用初始化向导：
 
 ### npx
