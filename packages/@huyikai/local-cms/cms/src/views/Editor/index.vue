@@ -139,12 +139,14 @@ const mdRender = async () => {
 };
 const preview = ref(null);
 const editor = ref<HTMLTextAreaElement | null>(null);
-const updatePreview = async (event: any) => {
-  undoStack.value.push(JSON.parse(JSON.stringify(content.value)));
-  content.value = event.target.value;
-  redoStack.value = [];
-  renderedMarkdown.value = await mdRender();
-  debouncedFn();
+const updatePreview = async (event: Event) => {
+  if (event.target !== null && event instanceof InputEvent) {
+    undoStack.value.push(JSON.parse(JSON.stringify(content.value)));
+    content.value = (event.target as HTMLInputElement).value;
+    redoStack.value = [];
+    renderedMarkdown.value = await mdRender();
+    debouncedFn();
+  }
 };
 
 // 撤销操作
