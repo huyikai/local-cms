@@ -90,7 +90,7 @@ export default defineConfig(() => {
       }
     },
     build: {
-      outDir: './../dist' // 设置打包目录到根目录下
+      outDir: './../dist'
     },
     test: {
       coverage: {

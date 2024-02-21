@@ -33,19 +33,27 @@ const route = useRoute();
 const router = useRouter();
 const useEditorStore = useEditor();
 
-const loading = ref(false);
-const undoStack: any = ref([]);
-const redoStack: any = ref([]);
-const content: any = ref('');
-const renderedMarkdown = ref(''); // 使用一个普通的响应式引用来存储渲染后的Markdown
+const loading = ref<boolean>(false);
+const undoStack = ref<string[]>([]);
+const redoStack = ref<string[]>([]);
+const content = ref<string>('');
+const renderedMarkdown = ref<string>('');
 
 const debouncedFn = useDebounceFn(
   () => {
-    const path: any = route.query.path;
-    const file: any = useEditorStore.flatData.find(
+    const path: string = route.query.path as string;
+    const file = useEditorStore.flatData.find(
       (item: any) => item.path === decodeURIComponent(path)
     );
-    modifyFileContent({ content: content.value, path: file.path });
+    if (!file) {
+      console.error('File not found');
+      return;
+    }
+    try {
+      modifyFileContent({ content: content.value, path: file.path });
+    } catch (error) {
+      console.error('Failed to modify file content', error);
+    }
   },
   500,
   { maxWait: 5000 }
@@ -58,7 +66,7 @@ const getContent = (path: any) => {
   getFileContent({ path: encodeURIComponent(path) }).then(async (res) => {
     if (res.status === 200) {
       content.value = res.data;
-      renderedMarkdown.value = await md();
+      renderedMarkdown.value = await mdRender();
       loading.value = false;
     }
   });
@@ -86,7 +94,7 @@ watch(
     immediate: true
   }
 );
-const md = async () => {
+const createMarkdownItInstance = async () => {
   const instance = new MarkdownIt({
     html: true,
     linkify: true,
@@ -109,13 +117,11 @@ const md = async () => {
       permalink: anchorPlugin.permalink.linkInsideHeader({
         symbol: '&ZeroWidthSpace;',
         renderAttrs: (slug: any, state: any) => {
-          // Find `heading_open` with the id identical to slug
           const idx = state.tokens.findIndex((token: any) => {
             const attrs = token.attrs;
             const id = attrs?.find((attr: any) => attr[0] === 'id');
             return id && slug === id[1];
           });
-          // Get the actual heading content
           const title = state.tokens[idx + 1].content;
           return {
             'aria-label': `Permalink to "${title}"`
@@ -123,15 +129,21 @@ const md = async () => {
         }
       })
     });
+  return instance;
+};
+
+const mdInstancePromise = createMarkdownItInstance();
+const mdRender = async () => {
+  const instance = await mdInstancePromise;
   return instance.render(content.value);
 };
 const preview = ref(null);
-const editor = ref(null);
+const editor = ref<HTMLTextAreaElement | null>(null);
 const updatePreview = async (event: any) => {
   undoStack.value.push(JSON.parse(JSON.stringify(content.value)));
   content.value = event.target.value;
   redoStack.value = [];
-  renderedMarkdown.value = await md();
+  renderedMarkdown.value = await mdRender();
   debouncedFn();
 };
 
@@ -139,9 +151,9 @@ const updatePreview = async (event: any) => {
 const undo = async () => {
   if (undoStack.value.length > 0) {
     redoStack.value.push(JSON.parse(JSON.stringify(content.value))); // 将当前状态推入重做栈
-    const lastState = undoStack.value.pop();
+    const lastState = undoStack.value.pop() || '';
     content.value = lastState; // 更新内容为上一个状态
-    renderedMarkdown.value = await md();
+    renderedMarkdown.value = await mdRender();
     debouncedFn();
   }
 };
@@ -149,10 +161,10 @@ const undo = async () => {
 // 重做操作
 const redo = async () => {
   if (redoStack.value.length > 0) {
-    undoStack.value.push(JSON.parse(JSON.stringify(content.value))); // 将当前状态推入撤销栈
-    const nextState = redoStack.value.pop();
-    content.value = nextState; // 更新内容为下一个状态
-    renderedMarkdown.value = await md();
+    undoStack.value.push(JSON.parse(JSON.stringify(content.value)));
+    const nextState = redoStack.value.pop() || '';
+    content.value = nextState;
+    renderedMarkdown.value = await mdRender();
     debouncedFn();
   }
 };
@@ -160,7 +172,7 @@ const redo = async () => {
 const clear = async () => {
   undoStack.value.push(JSON.parse(JSON.stringify(content.value)));
   content.value = '';
-  renderedMarkdown.value = await md();
+  renderedMarkdown.value = await mdRender();
   debouncedFn();
 };
 
@@ -188,77 +200,64 @@ const syncScroll = (event: any) => {
       (editorElement.scrollHeight - editorElement.clientHeight);
   }
 };
-const applyFormat = async (formatType: any) => {
-  const editorElement: any = editor.value;
-  if (!editorElement) return;
+const applyFormat = async (formatType: string) => {
+  if (!editor.value) return;
 
-  let formatText = '';
+  let prefix = '';
+  let suffix = '';
   switch (formatType) {
     case 'bold':
-      formatText = '**';
+      prefix = suffix = '**';
       break;
     case 'italic':
-      formatText = '*';
+      prefix = suffix = '*';
       break;
     case 'strikethrough':
-      formatText = '~~';
+      prefix = suffix = '~~';
       break;
     case 'quote':
-      formatText = '> ';
+      prefix = '> ';
       break;
     case 'h1':
-      formatText = '# ';
+      prefix = '# ';
       break;
     case 'h2':
-      formatText = '## ';
+      prefix = '## ';
       break;
     case 'h3':
-      formatText = '### ';
+      prefix = '### ';
       break;
     case 'h4':
-      formatText = '#### ';
+      prefix = '#### ';
       break;
     case 'h5':
-      formatText = '##### ';
+      prefix = '##### ';
       break;
     case 'h6':
-      formatText = '###### ';
+      prefix = '###### ';
       break;
-    // 可以根据需要添加更多格式化类型
   }
 
-  const startPos = editorElement.selectionStart;
-  const endPos = editorElement.selectionEnd;
-  const selectedText = editorElement.value.substring(startPos, endPos);
-  const originalText = editorElement.value;
+  // 获取当前选中的文本和光标位置
+  const { selectionStart, selectionEnd, value: originalText } = editor.value;
+  const selectedText = originalText.substring(selectionStart, selectionEnd);
 
-  if (selectedText) {
-    // 如果有选中内容，则给选中的内容增加格式
-    editorElement.value =
-      originalText.substring(0, startPos) +
-      formatText +
-      selectedText +
-      (['bold', 'italic', 'strikethrough'].includes(formatType)
-        ? formatText
-        : '') +
-      originalText.substring(endPos);
-    editorElement.setSelectionRange(startPos, endPos + formatText.length * 2);
-  } else {
-    // 如果没有选中内容，仅插入格式文本
-    editorElement.value =
-      originalText.substring(0, startPos) +
-      formatText +
-      originalText.substring(endPos);
-    editorElement.setSelectionRange(
-      startPos + formatText.length,
-      startPos + formatText.length
-    );
-  }
+  // 构造新的文本内容
+  const beforeText = originalText.substring(0, selectionStart);
+  const afterText = originalText.substring(selectionEnd);
+  const newText = `${beforeText}${prefix}${selectedText}${suffix}${afterText}`;
 
-  editorElement.focus(); // 保持焦点在编辑器上
-  editorElement.dispatchEvent(new Event('input')); // 触发input事件以更新数据
-  renderedMarkdown.value = await md(); // 重新渲染Markdown
-  debouncedFn(); // 应用防抖函数
+  // 更新文本内容
+  content.value = newText;
+
+  // 更新光标位置
+  const newCursorPos =
+    selectionStart + prefix.length + selectedText.length + suffix.length;
+  editor.value.value = content.value; // 直接更新 textarea 的值
+  editor.value.setSelectionRange(newCursorPos, newCursorPos); // 更新光标位置
+
+  renderedMarkdown.value = await mdRender();
+  debouncedFn();
 };
 </script>
 <template>
