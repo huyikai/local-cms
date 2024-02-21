@@ -1,17 +1,18 @@
 <script setup lang="ts">
-import { useEditor } from '@/stores/editor';
+import { useEditor, type BaseItem } from '@/stores/editor';
 import { renameFile, renameDirectory } from '@/api/editor';
 
 const props = withDefaults(
   defineProps<{
     visible: boolean;
-    data: any;
+    data: BaseItem;
   }>(),
-  { visible: false, data: {} }
+  { visible: false }
 );
+
 const emit = defineEmits<{
   (e: 'update:visible', value: boolean): void;
-  (e: 'update:data', value: string): void;
+  (e: 'update:data', value: BaseItem): void;
 }>();
 const _visible = computed({
   get() {
@@ -20,13 +21,12 @@ const _visible = computed({
   set(val) {
     emit('update:visible', val);
     if (!val) {
-      _data.value = {};
       newname.value = '';
     }
   }
 });
 
-const _data: any = computed({
+const _data = computed<BaseItem>({
   get() {
     return props.data || '';
   },
@@ -35,12 +35,9 @@ const _data: any = computed({
   }
 });
 
-const oldName = computed(() => {
-  return _data.value.path
-    .split('/')
-    .pop()
-    .replace(/\.[^/.]+$/, '');
-});
+const oldName = computed<string | number | undefined>(() =>
+  _data.value.path.split('/').pop()?.replace(/\.md$/, '')
+);
 
 const useEditorStore = useEditor();
 const newname = ref('');
