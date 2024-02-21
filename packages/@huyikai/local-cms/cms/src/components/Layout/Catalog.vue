@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useEditor } from '@/stores/editor';
+import { useEditor, type BaseItem } from '@/stores/editor';
 import { deleteFile, deleteDirectory } from '@/api/editor';
 import { useModal } from '@/stores/modal';
 const useModalStore = useModal();
@@ -17,7 +17,7 @@ const treeData = computed(() => useEditorStore.treeData);
 const flatData = computed(() => useEditorStore.flatData);
 
 // 点击重命名
-const handleRename = (data: any) => {
+const handleRename = (data: BaseItem) => {
   useModalStore.renameModalVisible = true;
   useModalStore.renameModaldata = data;
 };
@@ -26,10 +26,10 @@ const handleRename = (data: any) => {
 useEditorStore.getFilesList();
 
 // 控制 tree 组件展开 keys
-const expandedKeys: any = ref<(string | number)[]>([]);
+const expandedKeys = ref<(string | number)[]>([]);
 // 控制 tree 组件是否自动展开父级
 const autoExpandParent = ref<boolean>(true);
-const onExpand: any = (keys: string[]) => {
+const onExpand = (keys: (string | number)[]) => {
   expandedKeys.value = keys;
   autoExpandParent.value = false;
 };
@@ -54,7 +54,10 @@ watch(
         }
         return null;
       })
-      .filter((item, i, self) => item && self.indexOf(item) === i); // 去重
+      .filter((item, i, self) => item && self.indexOf(item) === i)
+      .filter(
+        (item): item is string | number => item !== null && item !== undefined
+      ); // 去重并过滤掉 null 和 undefined;
     expandedKeys.value = expanded; // 展开搜索到的文件的所有父节点
     autoExpandParent.value = true; // 自动展开父节点
   }
@@ -89,7 +92,7 @@ const handleEdit = (path: string) => {
 };
 
 // 点击删除
-const handleDelete = (item: any) => {
+const handleDelete = (item: BaseItem) => {
   Modal.confirm({
     title: `确定要删除该${item.isDirectory ? '目录' : '内容'}吗？`,
     content: '删除不可撤销，请谨慎操作',
@@ -114,11 +117,11 @@ const handleDelete = (item: any) => {
 };
 
 // 点击新建文件
-const handleNewFile = (item: any) => {
+const handleNewFile = (item: BaseItem) => {
   useModalStore.newFileModalVisible = true;
   useModalStore.newFilePath = item.path;
 };
-const handleNewDirectory = (item: any) => {
+const handleNewDirectory = (item: BaseItem) => {
   useModalStore.newDirectoryModalVisible = true;
   useModalStore.newDirectoryPath = item.path;
 };
