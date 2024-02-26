@@ -6,10 +6,11 @@
 
 # Local-CMS
 
-![npm-version](https://flat.badgen.net/npm/v/@huyikai/local-cms) 
-![node-version](https://flat.badgen.net/npm/node/@huyikai/local-cms) 
-![npm-downloads](https://flat.badgen.net/npm/dw/@huyikai/local-cms) 
-![license](https://flat.badgen.net/npm/license/@huyikai/local-cms)
+https://flat.badgen.net/npm/v/@huyikai/local-cms
+
+![npm-version](https://badgen.net/npm/v/@huyikai/local-cms) 
+![npm-downloads](https://badgen.net/npm/dw/@huyikai/local-cms) 
+![license](https://badgen.net/npm/license/@huyikai/local-cms)
 
 ## Brief
 
