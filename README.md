@@ -6,8 +6,6 @@
 
 # Local-CMS
 
-https://flat.badgen.net/npm/v/@huyikai/local-cms
-
 ![npm-version](https://badgen.net/npm/v/@huyikai/local-cms) 
 ![npm-downloads](https://badgen.net/npm/dw/@huyikai/local-cms) 
 ![license](https://badgen.net/npm/license/@huyikai/local-cms)
