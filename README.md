@@ -71,14 +71,3 @@ Then modify the `package.json` file, add the `cms` command.
 - Version control
 - Static resource (image) management
 
-## License
-
-[MIT](./license)
-
-## Website
-
-<https://huyikai.github.io/local-cms>
-
-## Repository
-
-<https://github.com/huyikai/local-cms>
