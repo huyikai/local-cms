@@ -65,9 +65,8 @@ Then modify the `package.json` file, add the `cms` command.
 
 ## ToDo
 
+- Static resource (image) management
 - File, directory movement
 - File Import/Batch
 - Linked content import
 - Version control
-- Static resource (image) management
-
