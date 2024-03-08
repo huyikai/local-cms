@@ -30,7 +30,7 @@
     "@release-it/bumper": "^4.0.2",
     "git-cz": "^4.9.0",
     "sass": "^1.63.6",
-    "vitepress": "^1.0.0-rc.31",
+    "vitepress": "^1.0.0-rc.45",
     "vue": "^3.3.9"
   },
   "release-it": {
