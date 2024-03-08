@@ -60,7 +60,7 @@ const handleOk = () => {
 </script>
 <template>
   <a-modal
-    v-model:visible="_visible"
+    v-model:open="_visible"
     title="新建内容"
     @ok="handleOk"
     ok-text="确定"

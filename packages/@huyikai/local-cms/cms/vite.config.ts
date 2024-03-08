@@ -73,9 +73,7 @@ export default defineConfig(() => {
           }
         ],
         resolvers: [
-          AntDesignVueResolver({
-            resolveIcons: true
-          }),
+          AntDesignVueResolver({ importStyle: false, resolveIcons: true }),
           (componentName) => {
             // where `componentName` is always CapitalCase
             if (componentName.startsWith('MDEditor'))
@@ -90,7 +88,18 @@ export default defineConfig(() => {
       }
     },
     build: {
-      outDir: './../dist'
+      outDir: './../dist',
+      rollupOptions: {
+        output: {
+          // 手动指定 chunk 分割策略
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              // 将所有 node_modules 目录下的代码分割到一个单独的 chunk
+              return 'vendor';
+            }
+          }
+        }
+      }
     },
     test: {
       coverage: {

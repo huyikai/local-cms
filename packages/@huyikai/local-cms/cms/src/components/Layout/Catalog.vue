@@ -99,8 +99,8 @@ const handleDelete = (item: BaseItem) => {
     okText: '删除',
     okType: 'danger',
     cancelText: '取消',
-    onOk() {
-      return new Promise((resolve, reject) => {
+    async onOk() {
+      return await new Promise((resolve, reject) => {
         (item.isDirectory ? deleteDirectory : deleteFile)({
           directory: item.path
         }).then((res) => {

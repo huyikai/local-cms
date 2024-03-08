@@ -1,4 +1,3 @@
-import 'ant-design-vue/es/message/style/css';
 import 'vitepress/dist/client/theme-default/styles/vars.css';
 import 'vitepress/dist/client/theme-default/styles/base.css';
 import 'vitepress/dist/client/theme-default/styles/utils.css';
