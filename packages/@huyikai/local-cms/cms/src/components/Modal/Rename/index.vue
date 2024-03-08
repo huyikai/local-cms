@@ -16,6 +16,7 @@ const emit = defineEmits<{
 }>();
 const _visible = computed({
   get() {
+    newname.value = oldName.value as string;
     return props.visible;
   },
   set(val) {
