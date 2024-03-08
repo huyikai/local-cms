@@ -1,5 +1,12 @@
 
 
+## [0.0.27](https://github.com/huyikai/local-cms/compare/v0.0.26...v0.0.27) (2024-03-08)
+
+
+### Features
+
+* 🎸 Add port settings ([8a12edc](https://github.com/huyikai/local-cms/commit/8a12edcae85d75d0fbbadf0d7d038960795e0864))
+
 ## [0.0.26](https://github.com/huyikai/local-cms/compare/v0.0.25...v0.0.26) (2024-03-08)
 
 ## [0.0.25](https://github.com/huyikai/local-cms/compare/v0.0.24...v0.0.25) (2024-02-23)
