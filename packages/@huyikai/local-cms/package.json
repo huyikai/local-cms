@@ -33,7 +33,8 @@
   ],
   "scripts": {
     "build": "cd cms && npm run build && cd .. && rollup --config rollup.config.ts --configPlugin typescript",
-    "cms": "node cms.js ../../../docs",
+    "tsc": "rollup --config rollup.config.ts --configPlugin typescript",
+    "cms": "node cms.js ../../../docs -p 1234",
     "dev": "cd cms && npm run dev",
     "release": "release-it"
   },

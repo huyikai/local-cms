@@ -11,6 +11,15 @@ import path from 'path';
 const app = express();
 let port = 3000;
 
+process.argv.forEach((val, index, array) => {
+  if (val === '-p' || val === '--port') {
+    const portArg = parseInt(array[index + 1], 10);
+    if (!isNaN(portArg)) {
+      port = portArg;
+    }
+  }
+});
+
 // 设置默认目录为docs，如果命令行参数中有目录，则使用命令行参数中的目录
 let currentDirectory = process.argv[2] || 'docs';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
