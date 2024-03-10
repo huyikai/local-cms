@@ -25,7 +25,7 @@
     "release": "npm run release --workspaces"
   },
   "devDependencies": {
-    "@huyikai/local-cms": "^0.0.1",
+    "@huyikai/local-cms": "^0.0.27",
     "@huyikai/vitepress-helper": "^0.0.30",
     "@release-it/bumper": "^4.0.2",
     "git-cz": "^4.9.0",
