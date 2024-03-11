@@ -141,6 +141,8 @@ const mdRender = async () => {
 };
 const preview = ref<HTMLDivElement | null>(null);
 const editor = ref<HTMLTextAreaElement | null>(null);
+
+// 监听编辑器内容变化
 const updatePreview = async (event: Event) => {
   if (event.target !== null && event instanceof InputEvent) {
     undoStack.value.push(JSON.parse(JSON.stringify(content.value)));
@@ -173,6 +175,7 @@ const redo = async () => {
   }
 };
 
+// 清空操作
 const clear = async () => {
   undoStack.value.push(JSON.parse(JSON.stringify(content.value)));
   content.value = '';
@@ -180,6 +183,7 @@ const clear = async () => {
   debouncedFn();
 };
 
+// 同步滚动
 const syncScroll = (event: Event) => {
   const target = event.target as HTMLElement;
   const isEditor = target.classList.contains('editor');
@@ -204,6 +208,8 @@ const syncScroll = (event: Event) => {
       (editorElement.scrollHeight - editorElement.clientHeight);
   }
 };
+
+// 应用格式
 const applyFormat = async (formatType: string) => {
   if (!editor.value) return;
 
