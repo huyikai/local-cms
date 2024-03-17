@@ -1,5 +1,7 @@
 # Getting Started
 
+![test](/images/test.png)
+
 ## Initialization Guide
 
 `local-cms` provides an initialization guide. You can choose the following ways to use the initialization guide:

@@ -337,6 +337,16 @@ app.get('/api/files/git', (req, res) => {
   );
 });
 
+app.get('/images/:imageName', (req, res) => {
+  const { imageName } = req.params;
+  const imagePath = path.join(currentDirectory, 'public/images', imageName);
+  if (fs.existsSync(imagePath)) {
+    res.sendFile(imagePath);
+  } else {
+    res.status(404).send('图片不存在');
+  }
+});
+
 // 添加通配符路由，重定向到 Vue 应用的入口文件
 app.get('*', (_req, res) => {
   res.sendFile(path.join(__dirname, 'dist/index.html'));

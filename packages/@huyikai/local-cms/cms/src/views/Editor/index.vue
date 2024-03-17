@@ -365,6 +365,13 @@ const applyFormat = async (formatType: string) => {
           @click="applyFormat('quote')"
         />
       </a-button>
+
+      <a-button
+        class="tool-item"
+        type="text"
+      >
+        <FileImageOutlined class="icon" />
+      </a-button>
     </div>
     <div class="editor-preview-container">
       <textarea

@@ -38,6 +38,7 @@ declare module '@vue/runtime-core' {
     Editor: typeof import('./../views/Editor/index.vue')['default']
     EditOutlined: typeof import('@ant-design/icons-vue')['EditOutlined']
     FileAddOutlined: typeof import('@ant-design/icons-vue')['FileAddOutlined']
+    FileImageOutlined: typeof import('@ant-design/icons-vue')['FileImageOutlined']
     FolderAddOutlined: typeof import('@ant-design/icons-vue')['FolderAddOutlined']
     FormOutlined: typeof import('@ant-design/icons-vue')['FormOutlined']
     HighlightText: typeof import('./../components/HighlightText/index.vue')['default']
